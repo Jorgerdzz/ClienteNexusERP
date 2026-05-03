@@ -1,0 +1,200 @@
+﻿/* ========================================
+   DEPARTAMENTS - Estilos modernos y profesionales
+   ======================================== */
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-wrapper {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.col:nth-child(1) .kpi-wrapper { animation-delay: 0.1s; }
+.col:nth-child(2) .kpi-wrapper { animation-delay: 0.2s; }
+.col:nth-child(3) .kpi-wrapper { animation-delay: 0.3s; }
+.col:nth-child(4) .kpi-wrapper { animation-delay: 0.4s; }
+
+.dept-wrapper {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ============================================
+   KPI CARDS (Superiores)
+   ============================================ */
+.card-kpi {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-kpi::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.card-kpi-1::before { background-color: var(--secondary-color); }
+.card-kpi-2::before { background-color: var(--success-color); }
+.card-kpi-3::before { background-color: #f59e0b; }
+.card-kpi-4::before { background-color: #ef4444; }
+
+.card-kpi:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+}
+
+.card-kpi:hover::before {
+    width: 6px;
+    opacity: 1;
+}
+
+/* Iconos KPI modernos */
+.icon-kpi {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-kpi:hover .icon-kpi {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ============================================
+   TARJETAS DE DEPARTAMENTOS
+   ============================================ */
+.card-custom {
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.card-custom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(59, 155, 173, 0.1);
+    border-color: var(--secondary-color);
+}
+
+.icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: var(--secondary-color);
+    transition: transform 0.3s ease;
+}
+
+.card-custom:hover .icon-box {
+    transform: scale(1.1);
+}
+
+/* Botones de acción en tarjetas */
+.btn-action-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.825rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.btn-light-custom {
+    background-color: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-light-custom:hover {
+    background-color: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+.btn-outline-custom-add {
+    color: var(--secondary-color);
+    border: 1px solid rgba(59, 155, 173, 0.3);
+    background-color: transparent;
+}
+
+.btn-outline-custom-add:hover {
+    background-color: rgba(59, 155, 173, 0.05);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-icon-only {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: #64748b;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.btn-icon-only:hover {
+    background-color: #f1f5f9;
+    color: #334155;
+    border-color: #cbd5e1;
+}
+
+.btn-icon-only.btn-delete:hover {
+    background-color: #fef2f2;
+    color: #ef4444;
+    border-color: #fca5a5;
+}
+
+/* Textos */
+.text-dark-heading {
+    color: #1e293b;
+}
+
+.text-content {
+    color: #334155;
+}
+
+/* ============================================
+   ESTADO VACÍO (EMPTY STATE)
+   ============================================ */
+.empty-state-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border: 1px dashed #e2e8f0;
+    border-radius: 1.5rem;
+}
+

@@ -1,0 +1,212 @@
+﻿@model NexusERP.ViewModels.MayorViewModel
+@{
+    ViewData["Title"] = "Libro Mayor";
+    ViewData["ActiveMenu"] = "accounting";
+}
+
+<link rel="stylesheet" href="~/css/libro-mayor.css" asp-append-version="true" />
+
+<main class="bg-light pb-5 min-vh-100">
+    <div class="container-fluid px-4 pt-4 dashboard-container">
+
+        <div class="d-flex justify-content-between align-items-end mb-4 kpi-wrapper">
+            <div>
+                <h2 class="fw-bold mb-1 text-dark-heading h3">Libro Mayor</h2>
+                <p class="text-muted mb-0 small">Auditoría de movimientos y saldo acumulado por cuenta</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary d-none d-md-flex align-items-center gap-2 px-3 shadow-sm rounded-3">
+                    <svg style="width: 18px; height: 18px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Imprimir Mayor
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-4 kpi-wrapper" style="animation-delay: 0.1s;">
+            <div class="acct-nav-container custom-nav-pills d-inline-flex p-1 rounded-4 shadow-sm bg-white border">
+                <a asp-action="Index" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-chart-line me-2"></i> Dashboard
+                </a>
+                <a asp-action="PlanContable" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-file-alt me-2"></i> Plan Contable
+                </a>
+                <a asp-action="Diario" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="far fa-calendar-alt me-2"></i> Libro Diario
+                </a>
+                <a asp-action="Mayor" class="acct-nav-link active rounded-pill px-4 py-2 text-decoration-none fw-medium transition-all">
+                    <i class="fas fa-search me-2"></i> Libro Mayor
+                </a>
+            </div>
+        </div>
+
+        <div class="card custom-card border-0 p-4 kpi-wrapper" style="animation-delay: 0.2s;">
+
+            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+                <div class="icon-box shadow-sm flex-shrink-0" style="width: 42px; height: 42px;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="fw-bold text-dark-heading mb-1 fs-5">Auditoría de Libro Mayor</h4>
+                    <p class="text-muted small mb-0">Seleccione una cuenta para ver su historial de movimientos</p>
+                </div>
+            </div>
+
+            <form asp-action="Mayor" method="get" class="mb-4 p-3 bg-light rounded-4 border filter-bar">
+                <div class="row align-items-end g-3">
+                    <div class="col-md-5">
+                        <label class="form-label fw-medium text-secondary small mb-1">Cuenta Contable</label>
+                        <select asp-for="CuentaIdSeleccionada" asp-items="Model.CuentasDisponibles" class="form-select custom-input bg-white shadow-sm fw-medium text-dark-heading" onchange="this.form.submit()">
+                            <option value="">-- Elija una cuenta --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-medium text-secondary small mb-1">Desde</label>
+                        <div class="input-group shadow-sm border-0 rounded-3">
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="far fa-calendar"></i></span>
+                            <input type="date" asp-for="FechaDesde" class="form-control custom-input border-start-0 ps-0 bg-white shadow-none" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-medium text-secondary small mb-1">Hasta</label>
+                        <div class="input-group shadow-sm border-0 rounded-3">
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="far fa-calendar"></i></span>
+                            <input type="date" asp-for="FechaHasta" class="form-control custom-input border-start-0 ps-0 bg-white shadow-none" />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary btn-brand w-100 shadow-sm d-flex align-items-center justify-content-center" style="height: 40px;" title="Aplicar filtros">
+                            <i class="fas fa-filter"></i> Aplicar
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            @if (Model.CuentaIdSeleccionada.HasValue)
+            {
+                <div class="table-responsive rounded-3 border mb-4">
+                    <table class="table table-hover table-borderless align-middle custom-table mb-0">
+                        <thead class="bg-light text-muted small fw-semibold text-uppercase" style="letter-spacing: 0.05em;">
+                            <tr>
+                                <th class="ps-4 py-3" style="width: 12%;">Fecha</th>
+                                <th class="py-3" style="width: 12%;">Asiento</th>
+                                <th class="py-3">Concepto</th>
+                                <th class="text-end py-3" style="width: 15%;">Debe</th>
+                                <th class="text-end py-3" style="width: 15%;">Haber</th>
+                                <th class="text-end pe-4 py-3" style="width: 18%;">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var delayRow = 3;
+                            }
+                            @foreach (var mov in Model.Movimientos)
+                            {
+                                string bgClass = mov.EsSaldoInicial ? "row-saldo-inicial" : "table-row-animate";
+                                string textClass = mov.EsSaldoInicial ? "text-secondary fst-italic" : "text-dark-heading";
+
+                                <tr class="@bgClass" style="@(mov.EsSaldoInicial ? "" : $"animation-delay: {delayRow * 0.05}s;")">
+                                    <td class="ps-4 py-3 text-secondary small">
+                                        @mov.Fecha.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td class="py-3">
+                                        @if (!string.IsNullOrEmpty(mov.AsientoNumero))
+                                        {
+                                            <span class="font-monospace fw-bold text-dark-heading fs-6">@mov.AsientoNumero</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">—</span>
+                                        }
+                                    </td>
+
+                                    <td class="py-3 fw-medium @textClass">
+                                        @if (mov.EsSaldoInicial)
+                                        {
+                                            <i class="fas fa-flag-checkered me-2 small opacity-75"></i>
+                                        }
+                                        @mov.Concepto
+                                    </td>
+
+                                    <td class="text-end py-3 fw-semibold @(mov.EsSaldoInicial ? "text-secondary" : "text-dark")">
+                                        @(mov.Debe > 0 ? mov.Debe.ToString("N2") + " €" : "-")
+                                    </td>
+
+                                    <td class="text-end py-3 fw-semibold @(mov.EsSaldoInicial ? "text-secondary" : "text-dark")">
+                                        @(mov.Haber > 0 ? mov.Haber.ToString("N2") + " €" : "-")
+                                    </td>
+
+                                    <td class="text-end pe-4 py-3 fw-bold font-monospace text-brand fs-6">
+                                        @mov.SaldoAcumulado.ToString("N2") €
+                                    </td>
+                                </tr>
+                                if (!mov.EsSaldoInicial) { delayRow++; }
+                            }
+
+                            @if (!Model.Movimientos.Any(m => !m.EsSaldoInicial))
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center py-5">
+                                        <div class="text-muted d-flex flex-column align-items-center">
+                                            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="mb-2 opacity-50">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12a2 2 0 00-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+                                            </svg>
+                                            <span>No hay movimientos en este periodo para la cuenta seleccionada.</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bank-statement-card p-4 rounded-4 d-flex flex-wrap align-items-center justify-content-between kpi-wrapper" style="animation-delay: 0.5s;">
+                    <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm icon-brand" style="width: 56px; height: 56px;">
+                            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-muted small mb-0 fw-semibold text-uppercase" style="letter-spacing: 0.05em;">Saldo Final de la Cuenta</p>
+                            <h2 class="fw-bold mb-0 mt-1 text-brand">@Model.SaldoFinal.ToString("N2") <span class="fs-5 text-muted fw-normal">€</span></h2>
+                        </div>
+                    </div>
+                    <div class="text-md-end border-start-md ps-md-4 py-2">
+                        <p class="text-dark-heading fw-bold mb-0 fs-5">@Model.NombreCuentaSeleccionada</p>
+                        <p class="text-muted small mb-0 mt-1 d-flex align-items-center justify-content-md-end gap-1">
+                            <i class="far fa-calendar-alt"></i> @Model.FechaDesde.ToString("dd/MM/yyyy") al @Model.FechaHasta.ToString("dd/MM/yyyy")
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state-card text-center p-5 mx-auto mt-2 kpi-wrapper" style="max-width: 600px; animation-delay: 0.3s;">
+                    <div class="mb-4">
+                        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center icon-box" style="width: 80px; height: 80px;">
+                            <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                <line x1="11" y1="8" x2="11" y2="14"></line>
+                                <line x1="8" y1="11" x2="14" y2="11"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold text-dark-heading mb-2">Seleccione una cuenta</h5>
+                    <p class="text-muted mb-0">
+                        Utilice el selector en la parte superior para elegir una cuenta contable y visualizar todo su historial de movimientos.
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+</main>

@@ -1,0 +1,443 @@
+﻿/* ========================================
+   NUEVA FACTURA - Estilos modernos
+   ======================================== */
+
+/* Card principal de la factura */
+.invoice-card {
+    border: none;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Header de la factura con gradiente sutil */
+.invoice-header-bg {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0f4f7 100%);
+    border-bottom: 2px solid rgba(59, 155, 173, 0.1);
+    padding: 2rem;
+    position: relative;
+}
+
+    .invoice-header-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    }
+
+/* Labels mejorados */
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs con estilo moderno */
+.input-clean {
+    border: 2px solid #e5e7eb;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+    .input-clean:focus {
+        background-color: #ffffff;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(59, 155, 173, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .input-clean:hover {
+        border-color: #cbd5e1;
+    }
+
+/* Select mejorado */
+select.input-clean {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+/* Sección de conceptos */
+.concepts-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.concepts-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+    .concepts-header svg {
+        color: var(--secondary-color);
+    }
+
+/* Tabla de líneas de factura */
+.table-invoice {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+}
+
+    .table-invoice thead {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    }
+
+        .table-invoice thead th {
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1rem 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+    .table-invoice tbody tr {
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+        .table-invoice tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+    .table-invoice tbody td {
+        padding: 1rem 0.75rem;
+        vertical-align: middle;
+    }
+
+        .table-invoice tbody td input {
+            font-size: 0.9rem;
+        }
+
+    /* Input dentro de tabla */
+    .table-invoice .input-clean {
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+        .table-invoice .input-clean:focus {
+            transform: none;
+        }
+
+/* Total de fila */
+.total-fila {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 1rem;
+}
+
+/* Botón eliminar línea */
+.btn-delete-line {
+    color: #ef4444;
+    transition: all 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+    .btn-delete-line:hover {
+        background-color: #fee2e2;
+        color: #dc2626;
+        transform: scale(1.1);
+    }
+
+/* Botón añadir concepto */
+.btn-add-concept {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px dashed var(--secondary-color);
+    color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 155, 173, 0.1);
+}
+
+    .btn-add-concept:hover {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #2d8599 100%);
+        color: white;
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 155, 173, 0.2);
+    }
+
+        .btn-add-concept:hover svg {
+            color: white;
+        }
+
+    .btn-add-concept svg {
+        transition: color 0.3s ease;
+    }
+
+/* Caja de totales */
+.totals-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0f4f7 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 2px solid rgba(59, 155, 173, 0.2);
+    box-shadow: 0 4px 12px rgba(59, 155, 173, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+    .totals-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(59, 155, 173, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+    .total-row.subtotal {
+        border-bottom: 1px solid rgba(59, 155, 173, 0.2);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .total-row.final {
+        padding-top: 1rem;
+        border-top: 2px solid var(--secondary-color);
+        margin-top: 1rem;
+    }
+
+.total-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.total-amount {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.total-row.final .total-label {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1f2937;
+}
+
+.total-row.final .total-amount {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    text-shadow: 0 2px 4px rgba(59, 155, 173, 0.1);
+}
+
+/* Botón principal de envío */
+.btn-submit-invoice {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2d8599 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 16px rgba(59, 155, 173, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-submit-invoice::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-submit-invoice:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 24px rgba(59, 155, 173, 0.4);
+        background: linear-gradient(135deg, #2d8599 0%, var(--secondary-color) 100%);
+    }
+
+        .btn-submit-invoice:hover::before {
+            left: 100%;
+        }
+
+    .btn-submit-invoice:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-submit-invoice:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* Botón volver mejorado */
+.btn-back {
+    background: white;
+    border: 2px solid #e5e7eb;
+    color: #64748b;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+    .btn-back:hover {
+        background: #f8fafc;
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+        transform: translateX(-5px);
+        box-shadow: 0 4px 12px rgba(59, 155, 173, 0.15);
+    }
+
+    .btn-back:active,
+    .btn-back:focus {
+        background: #f1f5f9;
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-back svg {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-back:hover svg {
+        transform: translateX(-3px);
+    }
+
+/* Header de página */
+.page-header {
+    margin-bottom: 2rem;
+}
+
+    .page-header h1 {
+        color: #1f2937;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.invoice-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Loading state para el botón */
+.btn-submit-invoice.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+    .btn-submit-invoice.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 24px;
+        height: 24px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .invoice-header-bg {
+        padding: 1.5rem;
+    }
+
+    .concepts-section {
+        padding: 1.5rem;
+    }
+
+    .totals-box {
+        padding: 1.5rem;
+    }
+
+    .total-row.final .total-amount {
+        font-size: 1.5rem;
+    }
+
+    .table-invoice thead th,
+    .table-invoice tbody td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-submit-invoice {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Empty state para cuando no hay líneas */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #9ca3af;
+}
+
+    .empty-state svg {
+        opacity: 0.4;
+        margin-bottom: 1rem;
+    }

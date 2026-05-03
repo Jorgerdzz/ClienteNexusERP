@@ -1,0 +1,219 @@
+﻿@model List<CuentasContable>
+@{
+    ViewData["Title"] = "Plan Contable";
+    ViewData["ActiveMenu"] = "accounting";
+
+    // 1. Usamos una lista de Tuplas fuertemente tipadas por seguridad
+    var listaCombinada = new List<(string Codigo, string Nombre, string Tipo, bool IsHardcoded)>();
+
+    // 2. HARDCODEAMOS LA ESTRUCTURA DE GRUPOS Y SUBGRUPOS
+    listaCombinada.Add(("4", "ACREEDORES Y DEUDORES", "Pasivo", true));
+    listaCombinada.Add(("47", "ADMINISTRACIONES PÚBLICAS", "Pasivo", true));
+    listaCombinada.Add(("5", "CUENTAS FINANCIERAS", "Activo", true));
+    listaCombinada.Add(("57", "TESORERÍA", "Activo", true));
+    listaCombinada.Add(("6", "COMPRAS Y GASTOS", "Gasto", true));
+    listaCombinada.Add(("64", "GASTOS DE PERSONAL", "Gasto", true));
+    listaCombinada.Add(("7", "INGRESOS", "Ingreso", true));
+    listaCombinada.Add(("70", "VENTAS", "Ingreso", true)); // Ejemplo de subgrupo
+    listaCombinada.Add(("71", "INGRESOS FINANCIEROS", "Ingreso", true));
+
+    // 3. FUSIONAMOS CON TUS CUENTAS REALES DE LA BBDD
+    if (Model != null)
+    {
+        foreach (var cuentaBd in Model)
+        {
+            listaCombinada.Add((cuentaBd.Codigo, cuentaBd.Nombre, cuentaBd.Tipo, false));
+        }
+    }
+
+    // 4. ORDENAMOS TODO POR CÓDIGO
+    var planContableCompleto = listaCombinada.OrderBy(c => c.Codigo).ToList();
+}
+
+<main class="bg-light pb-5 min-vh-100">
+    <div class="container-fluid px-4 pt-4 dashboard-container">
+
+        <div class="d-flex justify-content-between align-items-end mb-4 kpi-wrapper">
+            <div>
+                <h2 class="fw-bold mb-1 text-dark-heading h3">Plan Contable</h2>
+                <p class="text-muted mb-0 small">Plan General Contable (PGC) actualizado a @DateTime.Now.Year</p>
+            </div>
+        </div>
+
+        <div class="mb-4 kpi-wrapper" style="animation-delay: 0.1s;">
+            <div class="acct-nav-container custom-nav-pills d-inline-flex p-1 rounded-4 shadow-sm bg-white border">
+                <a asp-action="Index" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-chart-line me-2"></i> Dashboard
+                </a>
+                <a asp-action="PlanContable" class="acct-nav-link active rounded-pill px-4 py-2 text-decoration-none fw-medium transition-all">
+                    <i class="fas fa-file-alt me-2"></i> Plan Contable
+                </a>
+                <a asp-action="Diario" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="far fa-calendar-alt me-2"></i> Libro Diario
+                </a>
+                <a asp-action="Mayor" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-search me-2"></i> Libro Mayor
+                </a>
+            </div>
+        </div>
+
+        <div class="card custom-card border-0 p-4 kpi-wrapper" style="animation-delay: 0.2s;">
+
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-box shadow-sm flex-shrink-0" style="width: 42px; height: 42px;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold text-dark-heading mb-1 fs-5">Plan General Contable</h4>
+                        <p class="text-muted small mb-0">Estructura jerárquica de cuentas</p>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-brand d-flex align-items-center gap-2 px-3 shadow-sm rounded-3" data-bs-toggle="modal" data-bs-target="#modalNuevaCuenta">
+                    <svg style="width: 18px; height: 18px" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Nueva Cuenta
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-minimalist w-100 mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Código</th>
+                            <th>Nombre de la Cuenta</th>
+                            <th style="width: 15%;">Tipo</th>
+                            <th class="text-center" style="width: 15%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var delayRow = 3;
+                        }
+                        @foreach (var item in planContableCompleto)
+                        {
+                            int length = item.Codigo.Length;
+                            string fontClass = "";
+                            string indentStyle = "";
+                            string rowClass = "table-row-animate";
+
+                            // Lógica Jerárquica: Indentación aplicada a la columna del código
+                            if (length == 1)
+                            {
+                                fontClass = "fw-bold text-dark";
+                                indentStyle = "padding-left: 1.25rem;";
+                            }
+                            else if (length == 2)
+                            {
+                                fontClass = "fw-semibold text-dark";
+                                indentStyle = "padding-left: 3rem;";
+                            }
+                            else
+                            {
+                                fontClass = "fw-medium text-secondary";
+                                indentStyle = "padding-left: 4.75rem;";
+                            }
+
+                            string badgeClass = item.Tipo switch
+                            {
+                                "Activo" => "badge-soft-success",
+                                "Pasivo" => "badge-soft-danger",
+                                "Gasto" => "badge-soft-warning",
+                                "Ingreso" => "badge-soft-info",
+                                _ => "bg-light text-secondary"
+                            };
+
+                            <tr class="@rowClass" style="animation-delay: @(delayRow * 0.05)s;">
+                                <td class="@fontClass" style="@indentStyle">
+                                    @item.Codigo
+                                </td>
+
+                                <td class="@fontClass">
+                                    @item.Nombre
+                                </td>
+
+                                <td>
+                                    <span class="badge rounded-pill px-3 py-1 fw-medium border @badgeClass">@item.Tipo</span>
+                                </td>
+
+                                <td class="text-center">
+                                    @if (!item.IsHardcoded)
+                                    {
+                                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-medium" title="Editar cuenta" data-bs-toggle="modal" data-bs-target="#modalNuevaCuenta">
+                                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-1">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Editar
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small fst-italic">—</span>
+                                    }
+                                </td>
+                            </tr>
+                            delayRow++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="modalNuevaCuenta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1rem;">
+
+            <div class="modal-header border-bottom-0 pb-0 pt-4 px-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-box shadow-sm flex-shrink-0" style="width: 40px; height: 40px;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h5 class="modal-title fw-bold text-dark-heading mb-0">Nueva Cuenta Contable</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="CreateCuenta" asp-controller="Accounting" method="post">
+                <div class="modal-body px-4 py-4">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label class="form-label fw-medium text-secondary small mb-1">Código de la cuenta</label>
+                            <input type="text" name="codigo" required class="form-control custom-input" placeholder="Ej: 5720001" />
+                        </div>
+                        <div class="col-md-7">
+                            <label class="form-label fw-medium text-secondary small mb-1">Naturaleza / Tipo</label>
+                            <select name="tipo" class="form-select custom-input">
+                                <option value="Activo">Activo (Bancos, Clientes...)</option>
+                                <option value="Pasivo">Pasivo (Proveedores, Impuestos...)</option>
+                                <option value="Gasto">Gasto (Compras, Nóminas...)</option>
+                                <option value="Ingreso">Ingreso (Ventas, Servicios...)</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label class="form-label fw-medium text-secondary small mb-1">Nombre descriptivo</label>
+                            <input type="text" name="nombre" required class="form-control custom-input" placeholder="Ej: Banco Santander Cuenta Corriente" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top px-4 py-3 bg-light" style="border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;">
+                    <button type="button" class="btn btn-light-custom px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-brand px-4 shadow-sm">Guardar Cuenta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

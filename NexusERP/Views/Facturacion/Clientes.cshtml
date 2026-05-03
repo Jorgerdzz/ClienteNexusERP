@@ -1,0 +1,146 @@
+﻿@model IEnumerable<NexusERP.Models.Cliente>
+@{
+    ViewData["Title"] = "Directorio de Clientes";
+}
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+    <div>
+        <a asp-controller="Facturacion" asp-action="Index" class="btn btn-link text-decoration-none text-muted d-flex align-items-center gap-2 p-0 px-2 py-1 btn-volver">
+            <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Volver al panel
+        </a>
+    </div>
+</div>
+
+<main class="bg-light pb-5 min-vh-100">
+    <div class="container-fluid px-4 pt-4">
+
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h1 class="h4 fw-bold text-dark mb-1">Directorio de Clientes</h1>
+                <p class="text-muted small mb-0">Gestión de la cartera de clientes para facturación</p>
+            </div>
+
+            <button type="button" class="btn btn-primary-custom shadow-sm rounded-3 px-4" data-bs-toggle="modal" data-bs-target="#modalCrearCliente">
+                <i class="fas fa-plus me-2"></i>Nuevo Cliente
+            </button>
+        </div>
+
+        <div class="card border-0 shadow-sm" style="border-radius: 0.75rem;">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-clientes w-100 m-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Razón Social</th>
+                                <th>CIF / NIF</th>
+                                <th>Contacto</th>
+                                <th>Estado</th>
+                                <th class="text-center pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-medium text-dark">
+                                        @item.RazonSocial
+                                    </td>
+                                    <td class="text-secondary">
+                                        <i class="far fa-id-card text-muted me-1"></i> @item.CifNif
+                                    </td>
+                                    <td class="text-secondary">
+                                        @if (!string.IsNullOrEmpty(item.Email))
+                                        {
+                                            <a href="mailto:@item.Email" class="text-link text-decoration-none"><i class="far fa-envelope me-1"></i> @item.Email</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">- Sin email -</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Activo)
+                                        {
+                                            <span class="badge badge-estado bg-success-light text-success border border-success border-opacity-25">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-estado bg-light text-secondary border">Inactivo</span>
+                                        }
+                                    </td>
+                                    <td class="text-center pe-4">
+                                        <button type="button" class="btn btn-sm btn-action btn-edit"
+                                                data-bs-toggle="modal" data-bs-target="#modalEditarCliente"
+                                                data-id="@item.Id"
+                                                data-razon="@item.RazonSocial"
+                                                data-cif="@item.CifNif"
+                                                data-email="@item.Email"
+                                                data-activo="@item.Activo.ToString().ToLower()">
+                                            <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                            </svg>
+                                        </button>
+
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-action btn-delete">
+                                            <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <i class="fas fa-users fs-1 text-light mb-3"></i>
+                                            <h5 class="fw-medium text-dark">No hay clientes registrados</h5>
+                                            <p class="small">Añade tu primer cliente para empezar a facturar.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<partial name="_ClientesModals" />
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Lógica para rellenar el modal de Editar dinámicamente
+            const editButtons = document.querySelectorAll('.btn-edit-cliente');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // 1. Extraemos los datos del botón
+                    const id = this.getAttribute('data-id');
+                    const razon = this.getAttribute('data-razon');
+                    const cif = this.getAttribute('data-cif');
+                    const email = this.getAttribute('data-email');
+                    const activo = this.getAttribute('data-activo') === 'true'; // Convertir string a boolean
+
+                    // 2. Inyectamos los datos en el formulario del Modal
+                    document.getElementById('edit-id').value = id;
+                    document.getElementById('edit-razon').value = razon;
+                    document.getElementById('edit-cif').value = cif;
+                    document.getElementById('edit-email').value = email;
+                    document.getElementById('edit-activo').checked = activo;
+                });
+            });
+
+        });
+    </script>
+}

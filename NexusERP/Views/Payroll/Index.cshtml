@@ -1,0 +1,258 @@
+﻿@model NominasIndexViewModel
+@{
+    ViewData["Title"] = "Gestión de Nóminas";
+    string periodoTexto = new DateTime(Model.AnoSeleccionado, Model.MesSeleccionado, 1)
+                            .ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-ES"));
+    periodoTexto = char.ToUpper(periodoTexto[0]) + periodoTexto.Substring(1);
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER DE LA PÁGINA -->
+    <div class="d-flex align-items-center justify-content-between mb-4 gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="bg-secondary-light text-secondary-custom d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border-radius: 1rem;">
+                <svg style="width: 32px; height: 32px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <div>
+                <h2 class="fw-bold text-primary-custom mb-0">Gestión de Nóminas</h2>
+                <p class="text-muted mb-0">Genera y administra los recibos de salario de la plantilla</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FILTRO Y RESUMEN -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7">
+            <div class="card card-payroll border-0 shadow-sm h-100 bg-gradient-custom">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-dark mb-1">Período de Liquidación</h5>
+                    <p class="text-muted small mb-3">Selecciona el mes a consultar o calcular</p>
+
+                    <form id="formPeriodoNomina" method="get" class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-medium text-muted mb-1">Mes</label>
+                            <select name="mes" class="form-select shadow-none py-2 form-select-payroll">
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    string nombreMes = new DateTime(2000, i, 1).ToString("MMMM", new System.Globalization.CultureInfo("es-ES"));
+                                    nombreMes = char.ToUpper(nombreMes[0]) + nombreMes.Substring(1);
+
+                                    // Si el mes del bucle coincide con el seleccionado, lo marcamos
+                                    if (Model.MesSeleccionado == i)
+                                    {
+                                        <option value="@i" selected>@nombreMes</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@nombreMes</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted mb-1">Año</label>
+                            <select name="ano" class="form-select shadow-none py-2 form-select-payroll">
+                                @for (int i = DateTime.Now.Year - 2; i <= DateTime.Now.Year + 1; i++)
+                                {
+                                    if (Model.AnoSeleccionado == i)
+                                    {
+                                        <option value="@i" selected>@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-outline-custom w-100 py-2 fw-medium" style="border-radius: 0.5rem;">
+                                Aplicar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="row g-3 h-100">
+                <!-- TARJETA PENDIENTES -->
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm h-100" style="background-color: #fffdf5; border-left: 4px solid #f59e0b !important; border-radius: 0.75rem;">
+                        <div class="card-body p-3 d-flex flex-column justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; background-color: #fef3c7; color: #d97706;">
+                                    <svg style="width: 22px; height: 22px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <span class="badge rounded-pill fw-medium" style="background-color: #fef3c7; color: #d97706;">Atención</span>
+                            </div>
+                            <div class="mt-2">
+                                <h2 class="fw-bold mb-0" style="color: #b45309; font-size: 2.2rem;">@Model.TotalPendientes</h2>
+                                <span class="small fw-bold text-uppercase" style="letter-spacing: 0.5px; color: #9ca3af;">Pendientes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA CALCULADAS -->
+                <div class="col-6">
+                    <div class="card border-0 shadow-sm h-100" style="background-color: #f2fdf7; border-left: 4px solid #10b981 !important; border-radius: 0.75rem;">
+                        <div class="card-body p-3 d-flex flex-column justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; background-color: #d1fae5; color: #059669;">
+                                    <svg style="width: 22px; height: 22px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <span class="badge rounded-pill fw-medium" style="background-color: #d1fae5; color: #059669;">Al día</span>
+                            </div>
+                            <div class="mt-2">
+                                <h2 class="fw-bold mb-0" style="color: #047857; font-size: 2.2rem;">@Model.TotalCalculadas</h2>
+                                <span class="small fw-bold text-uppercase" style="letter-spacing: 0.5px; color: #9ca3af;">Calculadas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE ESTADO DE NÓMINAS -->
+    <div class="card card-payroll border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="fw-bold text-dark mb-1">Estado de la Plantilla</h5>
+                    <p class="text-muted small mb-0">Mostrando datos para el período de <strong class="text-secondary-custom">@periodoTexto</strong></p>
+                </div>
+                <div style="width: 250px;">
+                    <input type="text" id="searchInput" class="form-control shadow-none form-select-payroll" placeholder="Buscar empleado...">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 table-payroll">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Empleado</th>
+                            <th>Departamento</th>
+                            <th class="text-end">Salario Bruto (Anual)</th>
+                            <th class="text-center">Estado Nómina</th>
+                            <th class="text-end pe-4">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empleadosTableBody">
+                        @if (!Model.Empleados.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="fas fa-users-slash fs-3 mb-3 d-block"></i>
+                                    No se encontraron empleados activos en la empresa.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var emp in Model.Empleados)
+                            {
+                                <tr>
+                                    <td class="ps-4 py-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <!-- Color condicional según el estado de la nómina (Opcional, pero queda genial) -->
+                                            <div class="avatar-circle fw-bold @(emp.EstaCalculada ? "bg-success-light text-success" : "bg-secondary-light text-secondary-custom")">
+                                                @emp.Iniciales
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-dark" style="font-size: 0.95rem;">@emp.NombreCompleto</div>
+                                                <div class="text-muted" style="font-size: 0.8rem;">@emp.Email</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill bg-light text-dark px-3 py-2 border">@emp.DepartamentoNombre</span>
+                                    </td>
+
+                                    @if (!emp.EstaCalculada)
+                                    {
+                                        <td class="text-end fw-medium text-muted">
+                                            @emp.SalarioBrutoAnual.ToString("C")
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-warning-light px-3 py-2 fw-medium" style="color: #b78a00;">
+                                                <i class="fas fa-calculator me-1"></i> Sin Calcular
+                                            </span>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <a asp-action="Calcular" asp-route-empleadoId="@emp.EmpleadoId" asp-route-mes="@Model.MesSeleccionado" asp-route-anio="@Model.AnoSeleccionado" class="btn btn-primary-custom d-inline-flex align-items-center gap-2 px-3 py-2" style="border-radius: 0.5rem; font-size: 0.85rem;">
+                                                <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                </svg>
+                                                Calcular
+                                            </a>
+                                        </td>
+                                    }
+                                    else if (emp.Estado != "Pagada")
+                                    {
+                                        <td class="text-end fw-bold text-dark">
+                                            @emp.LiquidoAPercibir?.ToString("C") <span class="text-muted small fw-normal">(Neto)</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-info px-3 py-2 fw-medium border border-info border-opacity-25">
+                                                <i class="fas fa-file-invoice-dollar me-1"></i> Pendiente Pago
+                                            </span>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <div class="d-flex justify-content-end align-items-center gap-2">
+                                                <a asp-action="Details" asp-route-idNomina="@emp.NominaId" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-3 py-2" style="border-radius: 0.5rem; font-size: 0.85rem;">
+                                                    Ver Recibo
+                                                </a>
+
+                                                <form asp-action="RegistrarPago" asp-controller="Payroll" method="post" class="m-0">
+                                                    <input type="hidden" name="idNomina" value="@emp.NominaId" />
+                                                    <button type="submit" class="btn btn-sm text-primary bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-3 px-3 py-2 fw-bold shadow-sm" title="Realizar transferencia">
+                                                        <i class="fas fa-money-check-alt me-1"></i> Pagar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-end fw-bold text-dark">
+                                            @emp.LiquidoAPercibir?.ToString("C") <span class="text-muted small fw-normal">(Neto)</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge rounded-pill bg-success-light text-success px-3 py-2 fw-medium border border-success border-opacity-25">
+                                                <i class="fas fa-check-circle me-1"></i> Pagada
+                                            </span>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <a asp-action="Details" asp-route-idNomina="@emp.NominaId" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-3 py-2" style="border-radius: 0.5rem; font-size: 0.85rem;">
+                                                <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                Ver Recibo
+                                            </a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/nominas-index.js" asp-append-version="true"></script>
+}

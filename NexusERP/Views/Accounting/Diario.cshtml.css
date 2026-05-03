@@ -1,0 +1,212 @@
+﻿/* ========================================
+   VISTA: LIBRO DIARIO
+   Estilos independientes y completos
+   ======================================== */
+
+/* ----------------------------------------
+   1. ANIMACIONES BASE
+   ---------------------------------------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-wrapper {
+    opacity: 0; /* Oculto inicialmente para la animación */
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ----------------------------------------
+   2. TIPOGRAFÍA Y COLORES
+   ---------------------------------------- */
+.text-dark-heading {
+    color: #1e293b;
+}
+
+.text-brand {
+    color: #3b9bad; /* Color principal de marca para totales */
+}
+
+/* ----------------------------------------
+   3. NAVEGACIÓN (Estilo Pills)
+   ---------------------------------------- */
+.custom-nav-pills .acct-nav-link {
+    color: #64748b;
+    transition: all 0.2s ease-in-out;
+}
+
+    .custom-nav-pills .acct-nav-link.active {
+        background-color: #3b9bad;
+        color: white !important;
+        box-shadow: 0 4px 6px -1px rgba(59, 155, 173, 0.2);
+    }
+
+.custom-nav-pills .hover-bg-light:hover {
+    background-color: #f8fafc;
+    color: #334155 !important;
+}
+
+/* ----------------------------------------
+   4. CAJAS, ICONOS Y ESTADOS VACÍOS
+   ---------------------------------------- */
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: #3b9bad;
+}
+
+.empty-state-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border: 1px dashed #e2e8f0;
+    border-radius: 1.5rem;
+}
+
+/* ----------------------------------------
+   5. BOTONES E INPUTS
+   ---------------------------------------- */
+.btn-brand {
+    background-color: #3b9bad;
+    border-color: #3b9bad;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+    .btn-brand:hover {
+        background-color: #2f7c8a;
+        border-color: #2f7c8a;
+        color: white;
+    }
+
+.btn-light-custom {
+    background-color: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+    .btn-light-custom:hover {
+        background-color: #f1f5f9;
+        color: #334155;
+        border-color: #cbd5e1;
+    }
+
+.custom-input {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+    .custom-input:focus {
+        background-color: #ffffff;
+        border-color: #3b9bad;
+        box-shadow: 0 0 0 3px rgba(59, 155, 173, 0.15);
+    }
+
+/* ----------------------------------------
+   6. COMPONENTE ACORDEÓN (Asientos)
+   ---------------------------------------- */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Ocultar la flecha por defecto del navegador en <details> */
+.custom-details-card > summary {
+    list-style: none;
+    outline: none;
+}
+
+    .custom-details-card > summary::-webkit-details-marker {
+        display: none;
+    }
+
+/* Transición suave para el fondo del summary */
+.asiento-summary {
+    transition: background-color 0.2s ease;
+}
+
+    .asiento-summary:hover {
+        background-color: #f8fafc;
+    }
+
+/* Configuración y rotación de la flecha SVG */
+.custom-details-card .details-chevron svg {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-details-card[open] summary .details-chevron {
+    transform: rotate(180deg);
+    background-color: #e2e8f0 !important; /* Oscurece el botón de la flecha al abrir */
+    color: #334155 !important;
+}
+
+/* Animación de entrada para el cuerpo del asiento */
+.custom-details-card[open] .asiento-body {
+    animation: fadeInDownBody 0.3s ease-out forwards;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    overflow: hidden;
+}
+
+@keyframes fadeInDownBody {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ----------------------------------------
+   7. TABLA DE APUNTES
+   ---------------------------------------- */
+.custom-table th {
+    font-weight: 600;
+    color: #64748b;
+}
+
+.custom-table td {
+    border-bottom: 1px solid #f8fafc;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+    .custom-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+/* Fila de Totales */
+.row-totales {
+    border-top: 2px dashed #e2e8f0 !important;
+}
+
+/* ----------------------------------------
+   8. ETIQUETAS (Soft Badges)
+   ---------------------------------------- */
+.badge-soft-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2) !important;
+    color: #10b981;
+}
+
+.badge-soft-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2) !important;
+    color: #ef4444;
+}

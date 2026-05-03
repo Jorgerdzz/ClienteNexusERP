@@ -1,0 +1,228 @@
+﻿@model DepartamentoDetailsViewModel
+
+@{
+    ViewData["Title"] = $"Detalle de {@Model.Nombre}";
+    @Html.AntiForgeryToken()
+}
+
+<div class="container-fluid py-4">
+
+    <!-- HEADER: Botón Volver y Acciones -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <a asp-controller="Departaments" asp-action="Index" class="btn btn-link text-decoration-none text-muted d-flex align-items-center gap-2 p-0 px-2 py-1 btn-volver">
+                <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Volver a departamentos
+            </a>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-controller="Empleados"
+               asp-action="DescargarPlantillaCsv"
+               asp-route-departamentoId="@Model.Id"
+               class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 fw-medium"
+               style="border-radius: 0.5rem;">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Descargar plantilla CSV
+            </a>
+            <button class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 fw-medium" data-bs-toggle="modal" data-bs-target="#modal-import-csv" style="border-radius: 0.5rem;">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Importar CSV
+            </button>
+            <button class="btn btn-primary-custom d-flex align-items-center gap-2 px-3 fw-medium" data-bs-toggle="modal" data-bs-target="#modal-add-employee" style="border-radius: 0.5rem;">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+                Añadir Empleado
+            </button>
+        </div>
+    </div>
+
+    <!-- TARJETAS DE ESTADÍSTICAS -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-4">
+        <!-- Tarjeta 1: Nombre Departamento -->
+        <div class="col">
+            <div class="card card-stats border-0 shadow-sm h-100 bg-gradient-custom">
+                <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted small mb-1">Departamento</p>
+                        <h3 class="fw-bold mb-0 text-primary-custom">@Model.Nombre</h3>
+                    </div>
+                    <div class="icon-circle bg-secondary-light text-secondary-custom">
+                        <svg style="width: 24px; height: 24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 2: Empleados -->
+        <div class="col">
+            <div class="card card-stats border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <p class="text-muted small mb-1">Empleados</p>
+                    <h3 class="fw-bold text-dark mb-0">@Model.NumeroEmpleados</h3>
+                    <p class="text-muted mt-1 mb-0" style="font-size: 0.75rem;">Total activos</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 3: Presupuesto -->
+        <div class="col">
+            <div class="card card-stats border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <p class="text-muted small mb-1">Presupuesto Anual</p>
+                    <h3 class="fw-bold text-secondary-custom mb-0">@Model.PresupuestoAnual.ToString("N0") €</h3>
+                    <p class="text-muted mt-1 mb-0" style="font-size: 0.8rem;">
+                        ≈ @Model.PresupuestoMensual.ToString("N0") € / mes
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 4: Salario Promedio -->
+        <div class="col">
+            <div class="card card-stats border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <p class="text-muted small mb-1">Salario Promedio</p>
+                    <h3 class="fw-bold text-dark mb-0">@Model.SalarioPromedioAnual.ToString("N0") €</h3>
+                    <p class="text-muted mt-1 mb-0" style="font-size: 0.8rem;">
+                        ≈ @Model.SalarioPromedioMensual.ToString("N0") € / mes
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TABLA DE EMPLEADOS (CON TU CSS APLICADO) -->
+    <div class="card border-0 shadow-sm" style="border-radius: 1rem;">
+        <div class="card-body p-4">
+            <!-- Título de la tabla -->
+            <div class="mb-4">
+                <h5 class="fw-bold text-dark mb-1">Empleados del Departamento</h5>
+                <p class="text-muted small mb-0">@Model.NumeroEmpleados empleados en @Model.Nombre</p>
+            </div>
+
+            <!-- Tabla -->
+            @if (Model != null)
+            {
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table custom-table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Grupo Cot.</th>
+                                    <th>Departamento</th>
+                                    <th class="text-end">Salario</th>
+                                    <th>F. Contratación</th>
+                                    <th>Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Empleados != null && Model.Empleados.Any())
+                                {
+                                    foreach (var empleado in Model.Empleados)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="fw-bold text-dark" style="font-size: 0.9rem;">@empleado.Nombre @empleado.Apellidos</div>
+                                                <div class="text-muted" style="font-size: 0.8rem;">@empleado.EmailCorporativo</div>
+                                            </td>
+
+                                            <td class="text-muted small">
+                                                Grupo @empleado.GrupoCotizacion
+                                            </td>
+
+                                            <td>
+                                                <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-2">
+                                                    @Model.Nombre
+                                                </span>
+                                            </td>
+
+                                            <td class="text-end fw-medium small text-dark">
+                                                @empleado.SalarioBrutoAnual.ToString("N0") €
+                                            </td>
+
+                                            <td class="text-muted small">
+                                                @empleado.FechaAntiguedad.ToString("dd MMM yyyy")
+                                            </td>
+
+                                            <td>
+                                                @if (empleado.Activo)
+                                                {
+                                                    <span class="badge badge-active">Activo</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-inactive">Inactivo</span>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <button class="btn btn-sm btn-action btn-edit" title="Editar"
+                                                            data-bs-toggle="modal" data-bs-target="#modal-upd-empleado"
+                                                            data-id="@empleado.Id"
+                                                            data-nombre="@empleado.Nombre"
+                                                            data-apellidos="@empleado.Apellidos"
+                                                            data-dni="@empleado.Dni"
+                                                            data-email="@empleado.EmailCorporativo"
+                                                            data-telefono="@empleado.Telefono"
+                                                            data-fechanacimiento="@empleado.FechaNacimiento.ToString("yyyy-MM-dd")"
+                                                            data-departamentoid="@Model.Id"
+                                                            data-numss="@empleado.NumSeguridadSocial"
+                                                            data-fechaantiguedad="@empleado.FechaAntiguedad.ToString("yyyy-MM-dd")"
+                                                            data-grupo="@empleado.GrupoCotizacion"
+                                                            data-salario="@empleado.SalarioBrutoAnual.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
+                                                            data-iban="@empleado.Iban"
+                                                            data-activo="@(empleado.Activo ? "true" : "false")"
+                                                            data-estadocivil="@empleado.EstadoCivil"
+                                                            data-hijos="@empleado.NumeroHijos"
+                                                            data-discapacidad="@empleado.PorcentajeDiscapacidad">
+                                                        <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-action btn-delete" title="Eliminar"
+                                                            data-url="/Empleados/Delete/@empleado.Id"
+                                                            data-name="@empleado.Nombre">
+                                                        <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center py-5 text-muted">
+                                            No hay empleados registrados en este departamento.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<partial name="_DetailsModals"/>
+
+@section Scripts{
+    <script src="~/js/empleados.js"></script>
+}

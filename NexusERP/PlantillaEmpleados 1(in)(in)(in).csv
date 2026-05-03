@@ -1,0 +1,4 @@
+Nombre,Apellidos,DNI,EmailCorporativo,FechaNacimiento,NumSeguridadSocial,FechaAntiguedad,GrupoCotizacion,SalarioBrutoAnual,IBAN,EstadoCivil,NumeroHijos,PorcentajeDiscapacidad
+Pepito,Perez,12345448H,pepito.perez@nike.com,1990-05-10,123456789012,2022-01-01,5,25000,ES7620770024003102575766,Casado,0,0
+Andrea,Lopez,13335121A,andrea.lopez@nike.com,1990-05-10,123456789012,2022-01-01,5,25000,ES7620770024003102575766,Casado,1,0
+Javier,Alonso,12344545J,javier.alonso@nike.com,1990-05-10,123456789012,2022-01-01,5,25000,ES7620770024003102575766,divorciado,0,0

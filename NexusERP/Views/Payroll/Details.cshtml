@@ -1,0 +1,201 @@
+﻿@model Nomina
+@{
+    ViewData["Title"] = "Detalle de Nómina";
+}
+
+<div class="container-fluid py-5 bg-light min-vh-100">
+
+    <!-- Botones de acción -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4" style="max-width: 900px; margin: 0 auto;">
+        <a asp-action="Index" class="btn btn-back">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span class="ms-2">Volver al gestor</span>
+        </a>
+
+        <a asp-action="DescargarPdf" asp-route-idNomina="@Model.Id" class="btn btn-download-pdf">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+            <span>Descargar PDF Oficial</span>
+        </a>
+    </div>
+
+    <!-- Contenedor principal de la nómina -->
+    <div class="payslip-container">
+
+        <!-- Header de la nómina -->
+        <div class="row payslip-header">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <h5 class="fw-bold text-dark mb-2">@Model.Empresa?.NombreComercial</h5>
+                <p class="text-muted mb-1">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    CIF: <strong>@Model.Empresa?.Cif</strong>
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h4 class="payslip-title mb-3">RECIBO DE SALARIOS</h4>
+                <p class="text-dark fw-semibold mb-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Período: @Model.FechaInicio.ToString("dd/MM/yyyy") al @Model.FechaFin.ToString("dd/MM/yyyy")
+                </p>
+                @if (Model.Estado == "Pagada")
+                {
+                    <span class="badge-status pagada">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        PAGADA
+                    </span>
+                }
+                else
+                {
+                    <span class="badge-status pendiente">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        PENDIENTE
+                    </span>
+                }
+            </div>
+        </div>
+
+        <!-- Información del empleado -->
+        <div class="employee-info-card">
+            <div class="row">
+                <div class="col-md-6 info-section-divider mb-3 mb-md-0">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-secondary-custom">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="text-muted small fw-bold text-uppercase">Trabajador</span>
+                    </div>
+                    <h6 class="fw-bold mb-2 text-gradient" style="font-size: 1.1rem;">@Model.Empleado?.Nombre @Model.Empleado?.Apellidos</h6>
+                    <p class="small mb-0 text-muted">
+                        <strong>DNI:</strong> @Model.Empleado?.Dni
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-secondary-custom">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="text-muted small fw-bold text-uppercase">Datos de Afiliación</span>
+                    </div>
+                    <h6 class="fw-bold mb-2" style="font-size: 1rem;">Nº SS: @Model.Empleado?.NumSeguridadSocial</h6>
+                    <p class="small mb-0 text-muted">
+                        <strong>Grupo Cotización:</strong> @Model.Empleado?.GrupoCotizacion
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de conceptos -->
+        <div class="table-responsive mb-4">
+            <table class="table table-payslip mb-0">
+                <thead>
+                    <tr>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">Conceptos Retributivos</th>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);" class="text-end">Devengos</th>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);" class="text-end">Deducciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var det in Model.NominaDetalles.OrderBy(d => d.Tipo))
+                    {
+                        <tr>
+                            <td class="concepto-nombre">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2 text-secondary-custom">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                @det.ConceptoNombre
+                            </td>
+                            <td class="text-end">
+                                @if (det.Tipo == 1)
+                                {
+                                    <span class="importe-devengo">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                        @det.Importe.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                @if (det.Tipo == 2)
+                                {
+                                    <span class="importe-deduccion">
+                                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                        </svg>
+                                        @det.Importe.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class="total-row">
+                        <td class="text-end text-uppercase">Totales:</td>
+                        <td class="text-end">@Model.TotalDevengado.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</td>
+                        <td class="text-end">@Model.TotalDeducciones.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Líquido a percibir -->
+        <div class="liquido-percibir-box">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="liquido-label">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Líquido a Percibir
+                    </div>
+                    <p class="text-white-50 mb-0 small">Importe neto a cobrar</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="liquido-amount">@Model.LiquidoApercibir.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bases de cotización e IRPF -->
+        <div class="bases-section">
+            <h6>
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                Bases de Cotización e I.R.P.F.
+            </h6>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="base-item">
+                        <span class="base-label">Base Cont. Comunes</span>
+                        <div class="base-value">@Model.BaseCotizacionCc.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="base-item">
+                        <span class="base-label">Base Cont. Profesionales</span>
+                        <div class="base-value">@Model.BaseCotizacionCp.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="base-item">
+                        <span class="base-label">Base Sujeta I.R.P.F. (@Model.PorcentajeIrpf%)</span>
+                        <div class="base-value">@Model.BaseIrpf.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) €</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

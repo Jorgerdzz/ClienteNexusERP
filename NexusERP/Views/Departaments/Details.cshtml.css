@@ -1,0 +1,180 @@
+﻿/* -------------------------------------------
+   ESTILOS ESPECÍFICOS DE LA VISTA DETALLES
+------------------------------------------- */
+
+/* Botón de volver interactivo */
+.btn-volver:hover {
+    color: var(--primary-color) !important;
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+}
+
+/* Tarjetas de Estadísticas superiores */
+.card-stats {
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card-stats:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    }
+
+.icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------------------------------------------
+   ESTILOS DE LA TABLA
+------------------------------------------- */
+.custom-table th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+    background-color: #f9fafb;
+    padding: 0.75rem 1rem;
+}
+
+.custom-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* Badges de Estado */
+.badge-active {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 0.35em 0.8em;
+    border-radius: 50rem;
+    font-weight: 500;
+}
+
+.badge-inactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 0.35em 0.8em;
+    border-radius: 50rem;
+    font-weight: 500;
+}
+
+/* Botones de acción en la tabla (Editar / Eliminar) */
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 0.5rem;
+    color: #6b7280;
+    transition: all 0.2s;
+}
+
+.btn-edit:hover {
+    color: var(--secondary-color);
+    background-color: #e0f4f7;
+}
+
+.btn-delete:hover {
+    color: var(--danger-color);
+    background-color: #ffeef2;
+}
+
+/* -------------------------------------------
+   ESTILOS DEL MODAL (Puro CSS, sin JavaScript)
+------------------------------------------- */
+.css-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    /* El truco mágico: Oculto por defecto, visible cuando la URL termina en #modal-id */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    backdrop-filter: blur(2px);
+}
+
+    .css-modal-overlay:target {
+        display: flex !important;
+    }
+
+.css-modal-content {
+    background-color: white;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalPopIn 0.3s ease-out forwards;
+}
+
+@keyframes modalPopIn {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.close-btn:hover {
+    color: var(--danger-color) !important;
+}
+
+/* Estilos de inputs específicos para el modal */
+.form-control, .form-select {
+    border-color: #d1d5db;
+    padding: 0.6rem 0.8rem;
+    border-radius: 0.5rem;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.25rem rgba(59, 155, 173, 0.25);
+    }
+
+/* Zona de subida de CSV (Drag & Drop visual) */
+.upload-zone {
+    border: 2px dashed #d1d5db;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    transition: border-color 0.2s ease;
+}
+
+    .upload-zone:hover {
+        border-color: var(--secondary-color);
+    }
+
+.custom-file-input::-webkit-file-upload-button {
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+    .custom-file-input::-webkit-file-upload-button:hover {
+        background-color: var(--secondary-color);
+        color: white;
+    }

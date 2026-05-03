@@ -1,0 +1,201 @@
+﻿@model NexusERP.Models.Empleado
+
+@{
+    ViewData["Title"] = $"Perfil de {Model.Nombre} {Model.Apellidos}";
+}
+
+<div class="container-fluid py-4 min-vh-100" style="background-color: #f8fafc; animation: fadeIn 0.5s ease-out forwards;">
+    
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-end mb-4 bg-white p-4 rounded-4 shadow-sm border border-light" style="position: relative; overflow: hidden;">
+        <div style="position: absolute; top:0; left:0; right:0; height: 4px; background: linear-gradient(90deg, var(--secondary-color), var(--success-color));"></div>
+        <div class="d-flex align-items-center gap-4">
+            <a href="javascript:history.back()" class="btn btn-link text-decoration-none text-muted p-0 d-flex align-items-center justify-content-center bg-light rounded-circle" style="width: 40px; height: 40px; transition: all 0.2s ease;">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div>
+                <h2 class="fw-bold mb-0 text-dark-heading d-flex align-items-center gap-3" style="font-size: 1.75rem; letter-spacing: -0.5px;">
+                    @Model.Nombre @Model.Apellidos
+                    @if (Model.Activo)
+                    {
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 fw-medium" style="font-size: 0.85rem; letter-spacing: 0;">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1 fw-medium" style="font-size: 0.85rem; letter-spacing: 0;">Inactivo</span>
+                    }
+                </h2>
+                <p class="text-muted mb-0 mt-1 d-flex align-items-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Departamento de @(Model.Departamento?.Nombre ?? "Sin Asignar")
+                </p>
+            </div>
+        </div>
+        <div>
+            <form asp-controller="PortalEmpleado" asp-action="MisNominas" method="get">
+                <input type="hidden" name="empleadoId" value="@Model.Id" />
+                <button type="submit" class="btn btn-outline-secondary d-flex align-items-center gap-2 px-4 py-2 fw-medium rounded-3 transition-hover shadow-sm">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Ver Nóminas
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4 d-flex align-items-stretch">
+        <!-- COLUMNA IZQUIERDA: RESUMEN Y CONTACTO -->
+        <div class="col-lg-4 d-flex flex-column gap-4">
+            
+            <!-- TARJETA AVATAR -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light" style="position: relative; overflow: hidden;">
+                <div style="height: 100px; background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));"></div>
+                <div class="card-body px-4 pb-4 pt-0 text-center">
+                    <div class="position-relative d-inline-block shadow-sm rounded-circle mb-3" style="margin-top: -40px; background-color: white; padding: 4px;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border: 2px solid white;">
+                            <span class="fs-2 fw-bold text-secondary-custom">
+                                @(Model.Nombre.Substring(0, 1).ToUpper())@(Model.Apellidos.Substring(0, 1).ToUpper())
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h5 class="fw-bold mb-1 text-dark-heading">@Model.Nombre @Model.Apellidos</h5>
+                    <p class="text-muted mb-3 small">@Model.Dni</p>
+                </div>
+            </div>
+
+            <!-- TARJETA CONTACTO -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light flex-grow-1">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-dark-heading mb-4 text-uppercase tracking-wide" style="font-size: 0.85rem;">Información de Contacto</h6>
+                    
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                        <li class="d-flex align-items-start gap-3">
+                            <div class="p-2 bg-light rounded-3 text-muted">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted small fw-medium">Email Corporativo</span>
+                                <span class="d-block fw-semibold text-dark">@(string.IsNullOrEmpty(Model.EmailCorporativo) ? "No especificado" : Model.EmailCorporativo)</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <div class="p-2 bg-light rounded-3 text-muted">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted small fw-medium">Teléfono</span>
+                                <span class="d-block fw-semibold text-dark">@(string.IsNullOrEmpty(Model.Telefono) ? "No especificado" : Model.Telefono)</span>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <div class="p-2 bg-light rounded-3 text-muted">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="d-block text-muted small fw-medium">Fecha de Nacimiento</span>
+                                <span class="d-block fw-semibold text-dark">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: DATOS LABORALES Y FISCALES -->
+        <div class="col-lg-8 d-flex flex-column gap-4">
+            
+            <!-- TARJETA DATOS LABORALES -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary-custom rounded-3">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h5 class="fw-bold mb-0 text-dark-heading">Datos Laborales y Económicos</h5>
+                    </div>
+
+                    <div class="row custom-grid g-4">
+                        <div class="col-sm-6 col-md-4">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1 tracking-wide">F. Antigüedad</span>
+                            <span class="d-block fw-semibold text-dark fs-6">@Model.FechaAntiguedad.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1 tracking-wide">Grupo Cotización</span>
+                            <span class="d-block fw-semibold text-dark fs-6 d-flex align-items-center gap-2">
+                                <span class="badge bg-light text-dark border px-2 py-1">@Model.GrupoCotizacion</span>
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1 tracking-wide">Nº Seguridad Social</span>
+                            <span class="d-block fw-semibold text-dark fs-6">@Model.NumSeguridadSocial</span>
+                        </div>
+                        
+                        <div class="col-sm-6 col-md-4">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1 tracking-wide">Salario Bruto Anual</span>
+                            <span class="d-block fw-bold text-success fs-5">@Model.SalarioBrutoAnual.ToString("N2") <span class="fs-6 text-muted fw-normal">€</span></span>
+                        </div>
+                        <div class="col-sm-12 col-md-8">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1 tracking-wide">Cuenta Bancaria (IBAN)</span>
+                            <span class="d-block fw-semibold text-dark fs-6 text-monospace">@(string.IsNullOrEmpty(Model.Iban) ? "No especificado" : Model.Iban)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA DATOS FISCALES / IRPF -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light flex-grow-1">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                         <div class="p-2 bg-info bg-opacity-10 text-info rounded-3">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h5 class="fw-bold mb-0 text-dark-heading">Situación Familiar / IRPF</h5>
+                    </div>
+
+                    <div class="row custom-grid g-4">
+                        <div class="col-sm-4">
+                            <div class="p-3 bg-light rounded-3 border border-light text-center h-100 d-flex flex-column justify-content-center">
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-2 tracking-wide">Estado Civil</span>
+                                <span class="d-block fw-bold text-dark fs-5">
+                                    @(((NexusERP.Enums.EstadoCivil)Model.EstadoCivil).ToString())
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="p-3 bg-light rounded-3 border border-light text-center h-100 d-flex flex-column justify-content-center">
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-2 tracking-wide">Nº de Hijos</span>
+                                <span class="d-block fw-bold text-dark fs-5">@Model.NumeroHijos</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                             <div class="p-3 bg-light rounded-3 border border-light text-center h-100 d-flex flex-column justify-content-center">
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-2 tracking-wide">Discapacidad</span>
+                                <span class="d-block fw-bold text-dark fs-5">
+                                    @Model.PorcentajeDiscapacidad <span class="fs-6 text-muted fw-normal">%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

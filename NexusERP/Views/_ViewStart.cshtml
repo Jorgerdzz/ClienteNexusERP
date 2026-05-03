@@ -1,0 +1,18 @@
+﻿@{
+    string controladorActual = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    string[] controladoresPublicos = new[] { "Home" };
+
+    if (controladoresPublicos.Contains(controladorActual))
+    {
+        Layout = "_LayoutPublico";
+    }
+    else if (controladorActual == "Account")
+    {
+        Layout = "_LayoutAuth";
+    }
+    else
+    {
+        Layout = "_LayoutERP";
+    }
+}

@@ -1,0 +1,769 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Hero Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="d-inline-block px-4 py-2 bg-secondary-light text-secondary-custom rounded-pill fw-medium mb-4">
+                    El nexo definitivo entre RRHH, Facturación y Contabilidad
+                </div>
+                <h1 class="display-3 fw-bold text-primary-custom mb-4">
+                    Gestiona todo tu negocio desde un solo lugar
+                </h1>
+                <p class="fs-5 text-secondary mb-4">
+                    Tu gestión laboral, facturación y financiera conectadas de forma automática.
+                    Calcula nóminas, emite facturas y deja que Nexus genere los asientos
+                    contables por ti. Todo bajo un mismo techo.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary-custom fs-5 px-5 py-3 rounded d-flex align-items-center justify-content-center gap-2">
+                        Empieza Gratis
+                        <svg style="height: 1.25rem; width: 1.25rem"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-custom fs-5 px-5 py-3 rounded">
+                        Iniciar Sesión
+                    </a>
+                </div>
+                <div class="d-flex align-items-center gap-4 text-secondary">
+                    <div class="d-flex align-items-center gap-2">
+                        <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Sin tarjeta de crédito</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Configuración en 5 minutos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 position-relative">
+                <div class="card shadow border-light rounded-3 p-4">
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-secondary-light rounded mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="height: 2.5rem; width: 2.5rem; background-color: var(--secondary-color);"
+                                     class="rounded-circle d-flex align-items-center justify-content-center">
+                                    <svg style="height: 1.25rem; width: 1.25rem; color: white"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-semibold text-dark">Nómina Procesada</p>
+                                    <p class="mb-0 small text-secondary">Marzo 2026</p>
+                                </div>
+                            </div>
+                            <svg style="height: 1.5rem; width: 1.5rem; color: var(--success-color);"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded mb-3" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important; border-left: 3px solid #10b981;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="height: 2.5rem; width: 2.5rem; background-color: #10b981;"
+                                     class="rounded-circle d-flex align-items-center justify-content-center">
+                                    <svg style="height: 1.25rem; width: 1.25rem; color: white"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-semibold text-dark">Factura Emitida</p>
+                                    <p class="mb-0 small text-secondary">Cliente: Acme Corp</p>
+                                </div>
+                            </div>
+                            <svg style="height: 1.5rem; width: 1.5rem; color: var(--success-color);"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-success-light rounded mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="height: 2.5rem; width: 2.5rem; background-color: var(--success-color);"
+                                     class="rounded-circle d-flex align-items-center justify-content-center">
+                                    <svg style="height: 1.25rem; width: 1.25rem; color: white"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-semibold text-dark">Asientos Generados</p>
+                                    <p class="mb-0 small text-secondary">Automáticamente</p>
+                                </div>
+                            </div>
+                            <svg style="height: 1.5rem; width: 1.5rem; color: var(--success-color);"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-warning-light rounded">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="height: 2.5rem; width: 2.5rem; background-color: var(--warning-color);"
+                                     class="rounded-circle d-flex align-items-center justify-content-center">
+                                    <svg style="height: 1.25rem; width: 1.25rem; color: white"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-semibold text-dark">Libros Actualizados</p>
+                                    <p class="mb-0 small text-secondary">Diario y Mayor</p>
+                                </div>
+                            </div>
+                            <svg style="height: 1.5rem; width: 1.5rem; color: var(--success-color);"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="bg-white py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold text-primary-custom mb-3">
+                Módulos Principales
+            </h2>
+            <p class="fs-5 text-secondary mx-auto" style="max-width: 48rem">
+                Todo lo que necesitas para gestionar tu empresa en una sola plataforma
+            </p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Feature 1: RRHH -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm bg-gradient-custom rounded-3 p-4">
+                    <div style="height: 3.5rem; width: 3.5rem; background-color: var(--secondary-color);"
+                         class="rounded-3 d-flex align-items-center justify-content-center mb-4">
+                        <svg style="height: 1.75rem; width: 1.75rem; color: white"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="fs-4 fw-bold text-primary-custom mb-3">
+                        Gestión de RRHH
+                    </h3>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-start gap-2 mb-3">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--secondary-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Fichas de empleados completas</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--secondary-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Gestión de departamentos y presupuestos</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2: Nóminas -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm bg-gradient-success rounded-3 p-4">
+                    <div style="height: 3.5rem; width: 3.5rem; background-color: var(--success-color);"
+                         class="rounded-3 d-flex align-items-center justify-content-center mb-4">
+                        <svg style="height: 1.75rem; width: 1.75rem; color: white"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="fs-4 fw-bold text-primary-custom mb-3">
+                        Motor de Nóminas
+                    </h3>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-start gap-2 mb-3">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Conceptos salariales personalizables</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Cálculo automático de IRPF y SS</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 3: Facturación (NUEVO) -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-3 p-4" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);">
+                    <div style="height: 3.5rem; width: 3.5rem; background-color: #10b981;"
+                         class="rounded-3 d-flex align-items-center justify-content-center mb-4">
+                        <svg style="height: 1.75rem; width: 1.75rem; color: white"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="fs-4 fw-bold text-primary-custom mb-3">
+                        Facturación Inteligente
+                    </h3>
+                    <ul class="list-unstyled">
+                        <li class="d-flex align-items-start gap-2 mb-3">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: #10b981;"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Emisión de facturas profesionales en PDF</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: #10b981;"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Gestión de clientes y seguimiento</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 4: Contabilidad -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border shadow-lg bg-gradient-dark rounded-3 p-4 position-relative overflow-hidden">
+                    <div class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-1 small fw-bold rounded-bottom-start">
+                        LA JOYA
+                    </div>
+                    <div style="height: 3.5rem; width: 3.5rem; background-color: var(--secondary-color);"
+                         class="rounded-3 d-flex align-items-center justify-content-center mb-4">
+                        <svg style="height: 1.75rem; width: 1.75rem; color: white"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="fs-4 fw-bold text-white mb-3">
+                        Contabilidad Integrada
+                    </h3>
+                    <ul class="list-unstyled text-light">
+                        <li class="d-flex align-items-start gap-2 mb-3">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--secondary-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>Asientos automáticos desde nóminas y facturas</span>
+                        </li>
+                        <li class="d-flex align-items-start gap-2">
+                            <svg style="height: 1.25rem; width: 1.25rem; color: var(--secondary-color);"
+                                 class="flex-shrink-0 mt-1"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="fw-semibold text-white">¡Cero errores humanos!</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section id="benefits" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold text-primary-custom mb-3">
+                ¿Por qué elegir NexusERP?
+            </h2>
+            <p class="fs-5 text-secondary mx-auto" style="max-width: 48rem">
+                Optimiza tu tiempo y reduce errores con nuestra solución integral
+            </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center p-4">
+                    <div class="mb-3">
+                        <svg style="height: 3rem; width: 3rem; color: var(--secondary-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="fw-bold text-primary-custom mb-2">Ahorra Tiempo</h4>
+                    <p class="text-secondary small">
+                        Reduce hasta un 70% el tiempo dedicado a tareas administrativas
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center p-4">
+                    <div class="mb-3">
+                        <svg style="height: 3rem; width: 3rem; color: var(--success-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="fw-bold text-primary-custom mb-2">100% Seguro</h4>
+                    <p class="text-secondary small">
+                        Tus datos protegidos con encriptación de nivel bancario
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center p-4">
+                    <div class="mb-3">
+                        <svg style="height: 3rem; width: 3rem; color: var(--warning-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="fw-bold text-primary-custom mb-2">Súper Rápido</h4>
+                    <p class="text-secondary small">
+                        Procesa nóminas y facturas en segundos, no en horas
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center p-4">
+                    <div class="mb-3">
+                        <svg style="height: 3rem; width: 3rem; color: var(--danger-color);"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="fw-bold text-primary-custom mb-2">Soporte 24/7</h4>
+                    <p class="text-secondary small">
+                        Estamos aquí para ayudarte cuando lo necesites
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-5 bg-white">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold text-primary-custom mb-3">
+                Planes que se adaptan a tu empresa
+            </h2>
+            <p class="fs-5 text-secondary mx-auto" style="max-width: 48rem">
+                Comienza gratis y escala según tus necesidades
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Plan Básico -->
+            <div class="col-lg-4">
+                <div class="card h-100 border rounded-3 p-4">
+                    <div class="card-body">
+                        <h3 class="fs-4 fw-bold text-primary-custom mb-3">Básico</h3>
+                        <div class="mb-4">
+                            <span class="display-4 fw-bold text-primary-custom">0€</span>
+                            <span class="text-secondary">/mes</span>
+                        </div>
+                        <p class="text-secondary mb-4">Perfecto para empezar</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Hasta 5 empleados</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Gestión básica de nóminas</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Facturación básica</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Soporte por email</span>
+                            </li>
+                        </ul>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-custom w-100 py-2">
+                            Comenzar Gratis
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Profesional -->
+            <div class="col-lg-4">
+                <div class="card h-100 border-primary shadow-lg rounded-3 p-4 position-relative">
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <span class="badge bg-primary px-3 py-2">Más Popular</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="fs-4 fw-bold text-primary-custom mb-3">Profesional</h3>
+                        <div class="mb-4">
+                            <span class="display-4 fw-bold text-primary-custom">49€</span>
+                            <span class="text-secondary">/mes</span>
+                        </div>
+                        <p class="text-secondary mb-4">Para empresas en crecimiento</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Hasta 50 empleados</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Facturación ilimitada</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Contabilidad integrada</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Informes avanzados</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Soporte prioritario</span>
+                            </li>
+                        </ul>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary-custom w-100 py-2">
+                            Comenzar Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plan Empresa -->
+            <div class="col-lg-4">
+                <div class="card h-100 border rounded-3 p-4">
+                    <div class="card-body">
+                        <h3 class="fs-4 fw-bold text-primary-custom mb-3">Empresa</h3>
+                        <div class="mb-4">
+                            <span class="display-4 fw-bold text-primary-custom">149€</span>
+                            <span class="text-secondary">/mes</span>
+                        </div>
+                        <p class="text-secondary mb-4">Sin límites para tu empresa</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Empleados ilimitados</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Todas las funciones</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>API de integración</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Gestor de cuenta dedicado</span>
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: var(--success-color);"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span>Soporte 24/7</span>
+                            </li>
+                        </ul>
+                        <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-custom w-100 py-2">
+                            Contactar Ventas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="bg-gradient-cta py-5">
+    <div class="container py-5 text-center">
+        <h2 class="display-4 fw-bold text-white mb-4">Empieza hoy mismo</h2>
+        <p class="fs-5 text-white-50 mb-4">
+            Únete a cientos de PYMEs que ya confían en NexusERP
+        </p>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-light text-primary-custom fs-5 px-5 py-3 fw-semibold rounded d-inline-flex align-items-center justify-content-center gap-2">
+            Empieza Gratis
+            <svg style="height: 1.25rem; width: 1.25rem"
+                 fill="none"
+                 stroke="currentColor"
+                 viewBox="0 0 24 24">
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+        </a>
+        <p class="small text-white-50 mt-3">
+            Sin tarjeta de crédito • Configuración en 5 minutos • Soporte en español
+        </p>
+    </div>
+</section>

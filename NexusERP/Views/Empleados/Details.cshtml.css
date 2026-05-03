@@ -1,0 +1,34 @@
+﻿.tracking-wide {
+    letter-spacing: 0.05em;
+}
+
+.text-monospace {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    letter-spacing: 1px;
+}
+
+.transition-hover {
+    transition: all 0.2s ease-in-out;
+}
+
+    .transition-hover:hover {
+        background-color: var(--bs-secondary);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+.btn-outline-secondary:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

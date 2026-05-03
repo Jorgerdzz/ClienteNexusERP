@@ -1,0 +1,71 @@
+﻿@model NexusERP.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div style="width: 100%; max-width: 28rem">
+
+    <div class="text-center mb-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-link text-white text-opacity-75 text-decoration-none mb-3">
+            <svg style="width: 16px; height: 16px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span class="small ms-2">Volver</span>
+        </a>
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+            <svg style="width: 40px; height: 40px" class="text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+            <span class="fs-2 fw-bold text-white">NexusERP</span>
+        </div>
+        <p class="text-white opacity-90">Accede a tu cuenta</p>
+    </div>
+
+    <div class="p-4 bg-white shadow rounded">
+        <form id="loginForm" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label small fw-medium">Email</label>
+                <input asp-for="Email" placeholder="tu@email.com" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label small fw-medium">Contraseña</label>
+                <input asp-for="Password" placeholder="••••••••" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary-custom w-100 py-3 mb-3">
+                Iniciar Sesión
+            </button>
+
+            <div class="text-center small">
+                <a asp-controller="Account" asp-action="ForgotPassword" class="text-link text-decoration-none">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </div>
+
+            <div class="text-center small text-secondary pt-3 border-top mt-3">
+                ¿No tienes cuenta?
+                <a asp-controller="Account" asp-action="Register" class="text-link text-decoration-none fw-medium">
+                    Regístrate gratis
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center mt-3 text-white small" style="opacity: 0.7">
+        <p class="d-flex align-items-center justify-content-center gap-2 mb-0">
+            <span class="fs-5">🔒</span>
+            Conexión segura y encriptada
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

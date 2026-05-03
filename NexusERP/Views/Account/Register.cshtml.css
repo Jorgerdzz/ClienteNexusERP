@@ -1,0 +1,25 @@
+﻿/* Views/Account/Register.cshtml.css */
+.step-indicator {
+    width: 32px;
+    height: 32px;
+}
+
+.step-line {
+    height: 2px;
+    width: 48px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.step-active {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.step-inactive {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.info-box {
+    background-color: #e0f4f7;
+}

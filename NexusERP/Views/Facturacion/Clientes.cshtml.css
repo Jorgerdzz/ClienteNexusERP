@@ -1,0 +1,92 @@
+﻿/* =========================================================
+   ESTILOS MÓDULO DE CLIENTES
+========================================================= */
+
+.table-clientes {
+    margin-bottom: 0;
+}
+
+    .table-clientes th {
+        font-size: 0.85rem;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #f3f4f6;
+        padding: 1rem;
+    }
+
+    .table-clientes td {
+        vertical-align: middle;
+        padding: 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        color: #374151;
+    }
+
+    .table-clientes tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+        .table-clientes tbody tr:hover {
+            background-color: #f9fafb;
+        }
+    /* =========================================================
+   BOTONES DE ACCIÓN EN LA TABLA (Editar / Eliminar)
+========================================================= */
+
+    /* Contenedor de acciones para mantener los botones alineados */
+    .table-clientes td:last-child {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        min-width: 100px;
+    }
+
+/* Estilo base para los botones de acción */
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 0.5rem;
+    color: #6b7280;
+    transition: all 0.2s;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* Hover del botón editar */
+.btn-edit:hover {
+    color: var(--secondary-color);
+    background-color: #e0f4f7;
+}
+
+/* Hover del botón eliminar */
+.btn-delete:hover {
+    color: red;
+    background-color: #ffeef2;
+}
+
+/* Estado por defecto del botón eliminar (siempre rojo) */
+.btn-delete {
+    color: var(--danger-color);
+}
+
+/* Quitar efectos de foco molestos */
+.btn-action:focus,
+.btn-action:active,
+.btn-action:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Ajuste responsive */
+@media (max-width: 768px) {
+    .btn-action {
+        width: 28px;
+        height: 28px;
+    }
+}

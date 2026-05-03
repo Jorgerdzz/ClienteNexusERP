@@ -1,0 +1,606 @@
+﻿/* ========================================
+   CÁLCULO DE NÓMINA - Estilos modernos y profesionales
+   ======================================== */
+
+/* ============================================
+   GENERAL Y LAYOUT
+   ============================================ */
+
+.page-header-nomina {
+    margin-bottom: 2rem;
+}
+
+    .page-header-nomina h1 {
+        color: #1f2937;
+        font-weight: 700;
+    }
+
+    .page-header-nomina p {
+        color: #64748b;
+    }
+
+/* Botón volver mejorado */
+.btn-volver {
+    background: white;
+    border: 2px solid #e5e7eb;
+    color: #64748b !important;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+}
+
+    .btn-volver:hover {
+        background: #f8fafc;
+        border-color: var(--secondary-color);
+        color: var(--secondary-color) !important;
+        transform: translateX(-5px);
+    }
+
+    .btn-volver:active,
+    .btn-volver:focus {
+        color: var(--secondary-color) !important;
+        border-color: var(--secondary-color);
+    }
+
+/* ============================================
+   CARD DE DATOS DEL EMPLEADO
+   ============================================ */
+
+.employee-header-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: none;
+    border-left: 5px solid var(--secondary-color) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: var(--secondary-color);
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(59, 155, 173, 0.2);
+}
+
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: var(--secondary-color);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(59, 155, 173, 0.2);
+}
+
+/* ============================================
+   CARD PRINCIPAL DEL FORMULARIO
+   ============================================ */
+
+.nomina-form-card {
+    background: white;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden;
+    border: none !important;
+}
+
+/* Header del formulario */
+.form-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0f4f7 100%);
+    border-bottom: 2px solid rgba(59, 155, 173, 0.1);
+    padding: 2rem;
+    position: relative;
+}
+
+    .form-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    }
+
+/* ============================================
+   SECCIONES DEL FORMULARIO
+   ============================================ */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f1f5f9;
+    color: var(--secondary-color);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+    .section-title svg {
+        color: var(--secondary-color);
+        flex-shrink: 0;
+    }
+
+.subsection-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #374151;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--secondary-color);
+}
+
+    .subsection-title svg {
+        color: var(--secondary-color);
+    }
+
+.section-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 3px solid var(--secondary-color);
+}
+
+/* ============================================
+   CONCEPTOS DINÁMICOS (Salario Base + Complementos)
+   ============================================ */
+
+.concepto-fijo-row {
+    background: linear-gradient(135deg, #e0f4f7 0%, #f8fafc 100%);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 2px solid rgba(59, 155, 173, 0.2);
+    transition: all 0.3s ease;
+}
+
+    .concepto-fijo-row:hover {
+        box-shadow: 0 4px 12px rgba(59, 155, 173, 0.15);
+        transform: translateY(-2px);
+    }
+
+.concepto-row {
+    background: white;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+    .concepto-row:hover {
+        background: #f8fafc;
+        border-color: rgba(59, 155, 173, 0.3);
+    }
+
+.concepto-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Input dentro de concepto */
+.concepto-input {
+    border: 2px solid #e5e7eb;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-align: end;
+}
+
+    .concepto-input:focus {
+        background-color: #ffffff;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(59, 155, 173, 0.1);
+        transform: translateY(-2px);
+        outline: none;
+    }
+
+    .concepto-input:hover {
+        border-color: #cbd5e1;
+    }
+
+/* Input de nombre de concepto */
+.concepto-nombre-input {
+    border: 2px solid #e5e7eb;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+    .concepto-nombre-input:focus {
+        background-color: #ffffff;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(59, 155, 173, 0.1);
+        transform: translateY(-2px);
+        outline: none;
+    }
+
+/* Botón añadir concepto */
+.btn-add-concepto {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px dashed var(--secondary-color);
+    color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 155, 173, 0.1);
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+    .btn-add-concepto:hover {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, #2d8599 100%);
+        color: white;
+        border-color: var(--secondary-color);
+        border-style: solid;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 155, 173, 0.25);
+    }
+
+        .btn-add-concepto:hover svg {
+            color: white;
+        }
+
+    .btn-add-concepto svg {
+        transition: color 0.3s ease;
+    }
+
+/* Botón eliminar concepto */
+.btn-delete-concepto {
+    color: #ef4444;
+    transition: all 0.2s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+}
+
+    .btn-delete-concepto:hover {
+        background-color: #fee2e2;
+        color: #dc2626;
+        transform: scale(1.1);
+    }
+
+/* ============================================
+   CAJA DE TOTALES
+   ============================================ */
+
+.total-box {
+    background: linear-gradient(135deg, #e0f4f7 0%, #f8fafc 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 2px solid rgba(59, 155, 173, 0.2);
+    box-shadow: 0 4px 12px rgba(59, 155, 173, 0.15);
+    position: relative;
+    overflow: hidden;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+    .total-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(59, 155, 173, 0.05) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+.total-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.total-amount {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-shadow: 0 2px 4px rgba(59, 155, 173, 0.1);
+}
+
+/* Box de líquido destacado */
+.liquido-box {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2d8599 100%);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 24px rgba(59, 155, 173, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+    .liquido-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+.liquido-label {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.liquido-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+}
+
+.liquido-amount {
+    color: white;
+    font-weight: 900;
+    font-size: 3rem;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    line-height: 1;
+}
+
+/* ============================================
+   TABLAS DE DEDUCCIONES Y COSTES
+   ============================================ */
+
+.table-nomina-calc {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+    .table-nomina-calc thead {
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    }
+
+        .table-nomina-calc thead th {
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            padding: 1.25rem 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+    .table-nomina-calc tbody tr {
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+        .table-nomina-calc tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .table-nomina-calc tbody tr.highlight-irpf {
+            background: linear-gradient(135deg, rgba(59, 155, 173, 0.05), rgba(59, 155, 173, 0.02));
+        }
+
+    .table-nomina-calc tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+        .table-nomina-calc tbody td input {
+            font-size: 0.9rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+        }
+
+            .table-nomina-calc tbody td input:focus {
+                border-color: var(--secondary-color);
+                box-shadow: 0 0 0 3px rgba(59, 155, 173, 0.1);
+                outline: none;
+            }
+
+/* ============================================
+   BOTÓN DE ENVÍO
+   ============================================ */
+
+.btn-submit-nomina {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #2d8599 100%);
+    border: none;
+    border-radius: 14px;
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 16px rgba(59, 155, 173, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-submit-nomina::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-submit-nomina:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 24px rgba(59, 155, 173, 0.4);
+        background: linear-gradient(135deg, #2d8599 0%, var(--secondary-color) 100%);
+    }
+
+        .btn-submit-nomina:hover::before {
+            left: 100%;
+        }
+
+    .btn-submit-nomina:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-submit-nomina:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.employee-header-card,
+.nomina-form-card {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.concepto-row {
+    animation: slideIn 0.3s ease forwards;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .avatar-circle {
+        width: 60px;
+        height: 60px;
+        font-size: 1.4rem;
+    }
+
+    .liquido-amount {
+        font-size: 2rem;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+    }
+
+    .btn-submit-nomina {
+        padding: 1rem 2rem;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+
+    .table-nomina-calc thead th,
+    .table-nomina-calc tbody td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .subsection-title {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   ESTADOS ESPECIALES
+   ============================================ */
+
+/* Loading state para el botón */
+.btn-submit-nomina.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+    .btn-submit-nomina.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 24px;
+        height: 24px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Efecto focus visible para accesibilidad */
+.concepto-input:focus-visible,
+.btn-add-concepto:focus-visible,
+.btn-submit-nomina:focus-visible {
+    outline: 3px solid var(--secondary-color);
+    outline-offset: 2px;
+}

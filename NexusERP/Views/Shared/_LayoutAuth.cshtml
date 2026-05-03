@@ -1,0 +1,66 @@
+﻿
+@{
+    var alert = TempData.GetAlert();
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NexusERP</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+              asp-fallback-href="~/lib/sweetalert2/sweetalert2.min.css"
+              asp-fallback-test-class="swal2-popup" asp-fallback-test-property="display" asp-fallback-test-value="none" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+
+    <link rel="stylesheet" href="~/NexusERP.styles.css" asp-append-version="true" />
+</head>
+<body class="bg-auth">
+
+    @RenderBody()
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="~/js/sweetalerts/sweetalert.service.js"></script>
+        <script src="~/js/modules/login.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.bootstrap" crossorigin="anonymous"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+                asp-fallback-src="~/lib/sweetalert2/sweetalert2.all.min.js" asp-fallback-test="window.Swal"></script>
+    </environment>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @if (alert != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                SweetAlertService.show(@Html.Raw(System.Text.Json.JsonSerializer.Serialize(alert)));
+            });
+        </script>
+    }
+
+</body>
+</html>

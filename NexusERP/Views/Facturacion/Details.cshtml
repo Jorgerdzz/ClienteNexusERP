@@ -1,0 +1,147 @@
+﻿@model NexusERP.Models.Factura
+@{
+    ViewData["Title"] = $"Factura {Model.NumeroFactura}";
+
+    // Cálculos rápidos para la vista
+    decimal baseImponible = Model.FacturaDetalles?.Sum(l => l.Cantidad * l.PrecioUnitario) ?? 0;
+    decimal cuotaIva = Model.IvaTotal;
+    decimal totalFactura = baseImponible + cuotaIva;
+}
+
+<div class="container-fluid py-5 bg-light min-vh-100">
+    
+    <!-- Botones de acción -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4" style="max-width: 900px; margin: 0 auto;">
+        <a asp-action="Index" class="btn btn-back">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>Volver al Panel</span>
+        </a>
+
+        <a asp-action="DescargarPdf" asp-route-idFactura="@Model.Id" class="btn btn-download-pdf">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+            <span>Descargar Factura (PDF)</span>
+        </a>
+    </div>
+
+    <!-- Contenedor principal de la factura -->
+    <div class="invoice-container">
+        
+        <!-- Header de la factura -->
+        <div class="row invoice-header mb-4">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <h4 class="fw-bold text-dark mb-2">@Model.Empresa?.NombreComercial</h4>
+                <p class="text-muted mb-1">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    CIF: <strong>@Model.Empresa?.Cif</strong>
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <h2 class="invoice-title mb-3">FACTURA</h2>
+                <p class="text-dark fw-semibold mb-1">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                    </svg>
+                    Nº: <strong>@Model.NumeroFactura</strong>
+                </p>
+                <p class="text-muted mb-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Fecha: <strong>@Model.FechaEmision.ToString("dd/MM/yyyy")</strong>
+                </p>
+                @if (Model.Estado == "Pagada")
+                {
+                    <span class="badge-status-factura pagada">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        PAGADA
+                    </span>
+                }
+                else
+                {
+                    <span class="badge-status-factura pendiente">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        PENDIENTE
+                    </span>
+                }
+            </div>
+        </div>
+
+        <!-- Información del cliente -->
+        <div class="client-info-card">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-secondary-custom">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-muted small fw-bold text-uppercase">Facturar a:</span>
+            </div>
+            <h5 class="fw-bold mb-2" style="background: linear-gradient(135deg, var(--secondary-color), #2d8599); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                @Model.Cliente?.RazonSocial
+            </h5>
+            <p class="mb-0 text-muted">
+                <strong>NIF/CIF:</strong> @Model.Cliente?.CifNif
+            </p>
+        </div>
+
+        <!-- Tabla de líneas de factura -->
+        <div class="table-responsive mb-4">
+            <table class="table table-invoice mb-0">
+                <thead>
+                    <tr>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">Descripción</th>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);" class="text-center">Cant.</th>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);" class="text-end">Precio Ud.</th>
+                        <th style="color: black !important; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.3);" class="text-end">Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var linea in Model.FacturaDetalles)
+                    {
+                        <tr>
+                            <td>
+                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2 text-secondary-custom">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                                @linea.Concepto
+                            </td>
+                            <td class="text-center fw-semibold">@linea.Cantidad.ToString("N2")</td>
+                            <td class="text-end">@linea.PrecioUnitario.ToString("N2") €</td>
+                            <td class="text-end fw-bold" style="color: var(--secondary-color);">
+                                @((linea.Cantidad * linea.PrecioUnitario).ToString("N2")) €
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totales -->
+        <div class="row justify-content-end">
+            <div class="col-md-7">
+                <div class="totals-section">
+                    <div class="total-row subtotal">
+                        <span class="total-label">Base Imponible</span>
+                        <span class="total-amount">@baseImponible.ToString("N2") €</span>
+                    </div>
+                    <div class="total-row">
+                        <span class="total-label">IVA </span>
+                        <span class="total-amount">@cuotaIva.ToString("N2") €</span>
+                    </div>
+                    <div class="total-row final">
+                        <span class="total-label">Total Factura</span>
+                        <span class="total-amount">@totalFactura.ToString("N2") €</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

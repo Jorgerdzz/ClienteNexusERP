@@ -1,0 +1,98 @@
+﻿@model CreateDepartamentoViewModel
+
+@* Modal 1: Añadir departamento *@
+<div class="modal fade" id="modal-add-department" tabindex="-1" aria-labelledby="modalAddDeptLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 1rem; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+
+            <div class="modal-header border-0 pb-0 mt-2 px-4">
+                <h5 class="modal-title fw-bold" id="modalAddDeptLabel" style="color: #2d3e50;">Añadir Nuevo Departamento</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-controller="Departaments" asp-action="Create" method="post" class="form-crud">
+                @Html.AntiForgeryToken()
+                <div class="modal-body px-4 py-3">
+
+                    <!-- Input: Nombre -->
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label fw-medium text-secondary" style="font-size: 0.95rem;">Nombre del Departamento</label>
+                        <input asp-for="Nombre" class="form-control shadow-none" placeholder="ej: Marketing"
+                               style="border-radius: 0.5rem; border: 1px solid #dee2e6; padding: 0.6rem 0.8rem;" required>
+                        <span asp-validation-for="Nombre" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <!-- Input: Presupuesto Anual -->
+                    <div class="mb-2">
+                        <label asp-for="PresupuestoAnual" class="form-label fw-medium text-secondary" style="font-size: 0.95rem;">Presupuesto Anual (€)</label>
+                        <input asp-for="PresupuestoAnual" class="form-control shadow-none" placeholder="10000" required min="0" step="0.01"
+                               style="border-radius: 0.5rem; border: 1px solid #dee2e6; padding: 0.6rem 0.8rem;">
+                        <span asp-validation-for="PresupuestoAnual" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-0 px-4 pb-4 pt-0 gap-2">
+                    <button type="button" class="btn btn-light bg-white" data-bs-dismiss="modal"
+                            style="border-radius: 0.5rem; border: 1px solid #dee2e6; font-weight: 500; color: #4b5563; padding: 0.5rem 1rem;">
+                        Cancelar
+                    </button>
+                    <button id="btnCrearDepartamento" type="submit" class="btn btn-primary-custom m-0"
+                            style="border-radius: 0.5rem; font-weight: 500; padding: 0.5rem 1rem;">
+                        Crear Departamento
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@* Modal 2: Modificar departamento *@
+<div class="modal fade" id="modal-update-department" tabindex="-1" aria-labelledby="modalUpDeptLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 1rem; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+
+            <div class="modal-header border-0 pb-0 mt-2 px-4">
+                <h5 class="modal-title fw-bold" id="modalUpDeptLabel" style="color: #2d3e50;">Modificar Departamento</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-controller="Departaments" asp-action="Edit" method="post" class="form-crud"
+                  data-confirm="true" data-confirm-text="¿Deseas guardar los cambios en este departamento?">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" id="editId" name="Id" />
+
+                <div class="modal-body px-4 py-3">
+
+                    <div class="mb-3">
+                        <label for="editNombre" class="form-label fw-medium text-secondary" style="font-size: 0.95rem;">Nombre del Departamento</label>
+                        <input type="text" id="editNombre" name="Nombre" class="form-control shadow-none" placeholder="ej: Marketing"
+                               style="border-radius: 0.5rem; border: 1px solid #dee2e6; padding: 0.6rem 0.8rem;" required>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="editPresupuesto" class="form-label fw-medium text-secondary" style="font-size: 0.95rem;">Presupuesto Anual (€)</label>
+                        <input type="number" id="editPresupuesto" name="PresupuestoAnual" class="form-control shadow-none" required min="0" step="0.01"
+                               style="border-radius: 0.5rem; border: 1px solid #dee2e6; padding: 0.6rem 0.8rem;">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-0 px-4 pb-4 pt-0 gap-2">
+                    <button type="button" class="btn btn-light bg-white" data-bs-dismiss="modal"
+                            style="border-radius: 0.5rem; border: 1px solid #dee2e6; font-weight: 500; color: #4b5563; padding: 0.5rem 1rem;">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-warning m-0 text-dark"
+                            style="border-radius: 0.5rem; font-weight: 500; padding: 0.5rem 1rem;">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

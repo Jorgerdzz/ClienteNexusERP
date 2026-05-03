@@ -1,0 +1,337 @@
+﻿@model EmpleadosViewModel
+
+@{
+    ViewData["Title"] = "Plantilla empresa";
+    int totalEmpleados = Model.Empleados?.Count ?? 0;
+}
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+    <div>
+        <a asp-controller="Departaments" asp-action="Index" class="btn btn-link text-decoration-none text-muted d-flex align-items-center gap-2 p-0 px-2 py-1 btn-volver">
+            <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Volver a departamentos
+        </a>
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+        <div>
+            <h1 class="page-title fw-bold mb-1">Todos los Empleados</h1>
+            <p class="text-muted-custom mb-0">@totalEmpleados empleados en total</p>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <a asp-controller="Empleados" asp-action="DescargarPlantillaCsvGlobal" class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 fw-medium" style="border-radius: 0.5rem;">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Plantilla CSV
+            </a>
+
+            <button class="btn btn-primary-custom d-flex align-items-center gap-2 px-3 fw-medium" data-bs-toggle="modal" data-bs-target="#modal-import-csv-global" style="border-radius: 0.5rem;">
+                <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Importar Global
+            </button>
+
+            <form action="/Empleados/Index" method="get" class="me-2">
+                <select name="idDepartamento" class="form-select text-muted-custom shadow-sm border-0"
+                        style="border-radius: 0.5rem; background-color: #f8fafc; min-width: 200px;" onchange="this.form.submit()">
+                    <option>Todos los Departamentos</option>
+                    @if (Model.Departamentos != null)
+                    {
+                        @foreach (var dept in Model.Departamentos)
+                        {
+                            if (ViewBag.DepartamentoSeleccionado != null && ViewBag.DepartamentoSeleccionado == dept.Id)
+                            {
+                                <option value="@dept.Id" selected>@dept.Nombre</option>
+                            }
+                            else
+                            {
+                                <option value="@dept.Id">@dept.Nombre</option>
+                            }
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.Empleados.Count != 0)
+    {
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-custom align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Grupo Cot.</th>
+                            <th>Departamento</th>
+                            <th>Salario</th>
+                            <th>F. Contratación</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Empleados != null)
+                        {
+                            foreach (Empleado empleado in Model.Empleados)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-dark">@empleado.Nombre @empleado.Apellidos</div>
+                                        <div class="small text-muted-custom" style="font-size: 0.8rem;">@empleado.EmailCorporativo</div>
+                                    </td>
+
+                                    <td class="text-muted-custom small">
+                                        Grupo @empleado.GrupoCotizacion
+                                    </td>
+
+                                    <td>
+                                        <span class="badge rounded-pill badge-dept">
+                                            @(empleado.Departamento?.Nombre ?? "Sin asignar")
+                                        </span>
+                                    </td>
+
+                                    <td class="fw-bold text-dark">
+                                        @empleado.SalarioBrutoAnual.ToString("N0") €
+                                    </td>
+
+                                    <td class="text-muted-custom small">
+                                        @empleado.FechaAntiguedad.ToString("dd MMM yyyy")
+                                    </td>
+
+                                    <td>
+                                        @if (empleado.Activo)
+                                        {
+                                            <span class="badge rounded-pill badge-status-active">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill badge-status-inactive">Inactivo</span>
+                                        }
+                                    </td>
+
+                                    <td class="text-end pe-4">
+                                        <div class="d-flex justify-content-end gap-1">
+                                            @Html.AntiForgeryToken()
+
+                                            <a asp-controller="Empleados" asp-action="Details" asp-route-id="@empleado.Id" class="btn-action-modern btn-details" title="Ver Detalles">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </a>
+
+                                            <button class="btn-action-modern btn-edit" title="Editar"
+                                                    data-bs-toggle="modal" data-bs-target="#modal-update-empleado"
+                                                    data-id="@empleado.Id"
+                                                    data-nombre="@empleado.Nombre"
+                                                    data-apellidos="@empleado.Apellidos"
+                                                    data-dni="@empleado.Dni"
+                                                    data-email="@empleado.EmailCorporativo"
+                                                    data-telefono="@empleado.Telefono"
+                                                    data-fechanacimiento="@empleado.FechaNacimiento.ToString("yyyy-MM-dd")"
+                                                    data-departamentoid="@empleado.DepartamentoId"
+                                                    data-numss="@empleado.NumSeguridadSocial"
+                                                    data-fechaantiguedad="@empleado.FechaAntiguedad.ToString("yyyy-MM-dd")"
+                                                    data-grupo="@empleado.GrupoCotizacion"
+                                                    data-salario="@empleado.SalarioBrutoAnual.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-iban="@empleado.Iban"
+                                                    data-activo="@(empleado.Activo ? "true" : "false")"
+                                                    data-estadocivil="@empleado.EstadoCivil"
+                                                    data-hijos="@empleado.NumeroHijos"
+                                                    data-discapacidad="@empleado.PorcentajeDiscapacidad">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+
+                                            <button class="btn-action-modern btn-delete" title="Eliminar"
+                                                    data-url="/Empleados/Delete/@empleado.Id"
+                                                    data-name="@empleado.Nombre @empleado.Apellidos">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted-custom">
+                                    No hay empleados registrados en este departamento.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+@* Modal: Modificar Empleado *@
+<div class="modal fade" id="modal-update-empleado" tabindex="-1" aria-labelledby="modalUpdateEmpLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1rem;">
+
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark" id="modalUpdateEmpLabel">Modificar Empleado</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form asp-controller="Empleados" asp-action="Edit" method="post" class="form-crud"
+                      data-confirm="true" data-confirm-text="¿Deseas guardar los cambios de este empleado?">
+
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="editId" name="Id" />
+
+                    <h6 class="fw-bold text-secondary-custom mb-3 border-bottom pb-2">Datos Personales</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Nombre *</label>
+                            <input type="text" id="editNombre" name="Nombre" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Apellidos *</label>
+                            <input type="text" id="editApellidos" name="Apellidos" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">DNI *</label>
+                            <input type="text" id="editDni" name="DNI" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Email Corporativo</label>
+                            <input type="email" id="editEmail" name="EmailCorporativo" class="form-control shadow-none">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Teléfono</label>
+                            <input type="tel" id="editTelefono" name="Telefono" class="form-control shadow-none">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">F. Nacimiento *</label>
+                            <input type="date" id="editFechaNacimiento" name="FechaNacimiento" class="form-control shadow-none" required>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-secondary-custom mb-3 border-bottom pb-2">Datos Laborales y Económicos</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Departamento *</label>
+                            <select id="editDepartamentoId" name="DepartamentoId" class="form-select shadow-none" required>
+                                <option value="">Seleccione...</option>
+                                @if (Model.Departamentos != null)
+                                {
+                                    foreach (var dept in Model.Departamentos)
+                                    {
+                                        <option value="@dept.Id">@dept.Nombre</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Nº Seguridad Social *</label>
+                            <input type="text" id="editNumSeguridadSocial" name="NumSeguridadSocial" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Fecha de Alta *</label>
+                            <input type="date" id="editFechaAntiguedad" name="FechaAntiguedad" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Grupo Cotización (1-11) *</label>
+                            <input type="number" id="editGrupoCotizacion" name="GrupoCotizacion" min="1" max="11" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Salario Anual (€) *</label>
+                            <input type="number" id="editSalarioBrutoAnual" name="SalarioBrutoAnual" step="0.01" class="form-control shadow-none" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">IBAN</label>
+                            <input type="text" id="editIban" name="IBAN" class="form-control shadow-none">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Estado</label>
+                            <select id="editActivo" name="Activo" class="form-select shadow-none">
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-secondary-custom mb-3 border-bottom pb-2">Datos para IRPF</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Estado Civil *</label>
+                            <select id="editEstadoCivil" name="EstadoCivil" class="form-select shadow-none" required>
+                                <option value="1">Soltero/a</option>
+                                <option value="2">Casado/a</option>
+                                <option value="3">Divorciado/a</option>
+                                <option value="4">Viudo/a</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">Nº Hijos</label>
+                            <input type="number" id="editNumeroHijos" name="NumeroHijos" min="0" class="form-control shadow-none">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-medium text-muted">% Discapacidad</label>
+                            <input type="number" id="editPorcentajeDiscapacidad" name="PorcentajeDiscapacidad" min="0" max="100" class="form-control shadow-none">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 border-top pt-3 mt-4">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning text-dark fw-medium">Actualizar Empleado</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Modal: Importar CSV Global *@
+<div class="modal fade" id="modal-import-csv-global" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1rem;">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark">Importar Empleados Global</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Empleados" asp-action="ImportCsvGlobal" method="post" enctype="multipart/form-data">
+                <div class="modal-body p-4">
+                    <div class="alert bg-light border text-muted small mb-4">
+                        <i class="fas fa-info-circle me-1"></i> El sistema intentará asignar automáticamente los departamentos. Asegúrate de que los nombres coincidan con los de la empresa (se aceptan alias como 'RRHH' o 'IT').
+                    </div>
+                    <label class="form-label fw-medium text-dark">Archivo CSV</label>
+                    <input type="file" name="file" class="form-control shadow-none" accept=".csv" required>
+                </div>
+                <div class="modal-footer border-top-0 pt-0 pb-4 px-4 d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-custom fw-medium">Importar Archivo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/empleados.js"></script>
+}

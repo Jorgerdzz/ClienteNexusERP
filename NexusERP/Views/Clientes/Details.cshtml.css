@@ -1,0 +1,50 @@
+﻿.tracking-wide {
+    letter-spacing: 0.05em;
+}
+
+.text-monospace {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    letter-spacing: 1px;
+}
+
+.transition-hover {
+    transition: all 0.2s ease-in-out;
+}
+
+    .transition-hover:hover {
+        background-color: #2d8599 !important; /* Slightly darker secondary */
+        color: white;
+        transform: translateY(-2px);
+    }
+
+.table-minimalist th {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.table-minimalist tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+    .table-minimalist tbody tr:hover {
+        background-color: #f8fafc;
+        transform: scale(1.002);
+    }
+
+@@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

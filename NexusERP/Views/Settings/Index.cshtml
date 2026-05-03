@@ -1,0 +1,205 @@
+﻿@model NexusERP.ViewModels.SettingsViewModel
+
+@{
+    ViewData["Title"] = "Ajustes de Empresa";
+}
+
+<div class="container-fluid py-4 min-vh-100" style="background-color: #f8fafc; animation: fadeIn 0.5s ease-out forwards;">
+    
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-end mb-4 bg-white p-4 rounded-4 shadow-sm border border-light" style="position: relative; overflow: hidden;">
+        <div style="position: absolute; top:0; left:0; right:0; height: 4px; background: linear-gradient(90deg, var(--secondary-color), var(--success-color));"></div>
+        <div>
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--secondary-light, #e0f4f7) 0%, #d1f0f5 100%);">
+                    <svg width="24" height="24" fill="none" stroke="var(--secondary-color)" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0 text-dark-heading" style="font-size: 1.75rem; letter-spacing: -0.5px;">Ajustes de Empresa</h2>
+                    <p class="text-muted mb-0 mt-1 d-flex align-items-center gap-2">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        Administra la información fiscal y comercial de tu negocio.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- COLUMNA IZQUIERDA: RESUMEN DE LA EMPRESA -->
+        <div class="col-lg-4">
+            <!-- TARJETA DE EMPRESA -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light mb-4" style="position: relative; overflow: hidden;">
+                <div style="height: 100px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); position: relative;">
+                    <svg class="position-absolute top-0 end-0 opacity-25" width="100" height="100" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zm0 10l-10-5v9l10 5 10-5v-9l-10 5z"></path>
+                    </svg>
+                </div>
+                <div class="card-body px-4 pb-4 pt-0 text-center">
+                    <div class="position-relative d-inline-block shadow-sm rounded-circle mb-3" style="margin-top: -40px; background-color: white; padding: 4px;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--secondary-light, #e0f4f7), #d1f0f5); border: 2px solid white;">
+                            <span class="fs-2 fw-bold text-secondary-custom">
+                                @(string.IsNullOrEmpty(Model.NombreComercial) ? "?" : Model.NombreComercial.Substring(0, 1).ToUpper())
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="fw-bold mb-1 text-dark-heading">@Model.NombreComercial</h4>
+                    <p class="text-muted mb-3 font-monospace small">CIF: @Model.CIF</p>
+
+                    <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                        @if (Model.Activo.GetValueOrDefault())
+                        {
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25 d-flex align-items-center gap-2">
+                                <span class="rounded-circle bg-success" style="width: 8px; height: 8px;"></span>
+                                Empresa Activa
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 border border-danger border-opacity-25 d-flex align-items-center gap-2">
+                                <span class="rounded-circle bg-danger" style="width: 8px; height: 8px;"></span>
+                                Empresa Inactiva
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETALLES DE LECTURA -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom border-light">
+                        <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-3">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h5 class="fw-bold mb-0 text-dark-heading m-0">Información del Sistema</h5>
+                    </div>
+
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3">
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Fecha de Alta</span>
+                            <span class="d-block fw-semibold text-dark d-flex align-items-center gap-2">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-muted">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                @(Model.FechaAlta ?? "No registrada")
+                            </span>
+                        </li>
+                        <li>
+                            <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Plan Actual</span>
+                            <span class="d-block fw-bold text-dark">
+                                <span class="text-secondary-custom">Licencia Premium</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: FORMULARIO DE EDICIÓN -->
+        <div class="col-lg-8">
+            <div class="card bg-white rounded-4 shadow-sm border border-light h-100">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex align-items-center justify-content-between mb-4 pb-3 border-bottom border-light">
+                        <h5 class="fw-bold text-dark-heading mb-0 d-flex align-items-center gap-2">
+                            <div class="bg-secondary bg-opacity-10 p-2 rounded-3 text-secondary-custom">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                            Datos Fiscales
+                        </h5>
+                    </div>
+                        
+                    <div class="alert px-4 py-3 mb-4 rounded-4 border-0 d-flex align-items-center gap-3 shadow-sm" style="background: linear-gradient(to right, #f2f7f9, #e0f4f7); border-left: 4px solid var(--secondary-color) !important;">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary flex-shrink-0">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <p class="mb-0 text-dark fw-medium" style="font-size: 0.95rem;">
+                            Estos datos aparecerán en las facturas emitidas y las nóminas de tus empleados. Asegúrate de que sean correctos.
+                        </p>
+                    </div>
+
+                    <form asp-action="UpdateEmpresa" method="post">
+                        <input type="hidden" asp-for="EmpresaId" />
+                        
+                        <div class="row g-4 mb-4">
+                            <!-- Nombre Comercial -->
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="NombreComercial" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Nombre Comercial</label>
+                                    <div class="input-group input-group-custom">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">
+                                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                            </svg>
+                                        </span>
+                                        <input asp-for="NombreComercial" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Ej: Nexus ERP Tech" />
+                                    </div>
+                                    <span asp-validation-for="NombreComercial" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Razón Social -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="RazonSocial" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Razón Social</label>
+                                    <div class="input-group input-group-custom">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">
+                                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                            </svg>
+                                        </span>
+                                        <input asp-for="RazonSocial" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Razón Jurídica S.L." />
+                                    </div>
+                                    <span asp-validation-for="RazonSocial" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+
+                            <!-- CIF -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CIF" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">CIF / NIF</label>
+                                    <div class="input-group input-group-custom">
+                                        <span class="input-group-text bg-light border-end-0 text-muted">
+                                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+                                            </svg>
+                                        </span>
+                                        <input asp-for="CIF" class="form-control border-start-0 py-2 ps-0 bg-light font-monospace text-uppercase" placeholder="B12345678" />
+                                    </div>
+                                    <span asp-validation-for="CIF" class="text-danger small mt-1 d-block"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-5 pt-4 border-top border-light gap-3">
+                            <button type="submit" class="btn btn-primary-custom px-4 py-2 text-white fw-semibold d-flex align-items-center gap-2 shadow-sm transition-transform hover-lift" style="border-radius: 10px;">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Actualizar Ajustes
+                            </button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

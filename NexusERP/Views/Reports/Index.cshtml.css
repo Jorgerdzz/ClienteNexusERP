@@ -1,0 +1,143 @@
+﻿/* ========================================
+   VISTA: ANÁLISIS E INFORMES
+   Estilos independientes para gráficos y KPIs
+   ======================================== */
+
+/* ----------------------------------------
+   1. ANIMACIONES BASE
+   ---------------------------------------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-wrapper {
+    opacity: 0; /* Oculto inicialmente para la animación */
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ----------------------------------------
+   2. TIPOGRAFÍA Y COLORES
+   ---------------------------------------- */
+.text-dark-heading {
+    color: #1e293b;
+}
+
+/* ----------------------------------------
+   3. SELECTOR DE AÑO (Cabecera)
+   ---------------------------------------- */
+.custom-year-select {
+    cursor: pointer;
+    background-color: transparent;
+    padding-right: 2rem !important; /* Espacio para la flecha nativa */
+}
+
+    .custom-year-select:focus {
+        box-shadow: none !important;
+    }
+
+/* ----------------------------------------
+   4. TARJETAS KPI (El diseño que te gusta)
+   ---------------------------------------- */
+.card-kpi {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+    .card-kpi::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+/* Colores de los bordes laterales (Highlights) */
+.card-kpi-success::before {
+    background-color: #10b981; /* Verde */
+}
+
+.card-kpi-danger::before {
+    background-color: #ef4444; /* Rojo */
+}
+
+.card-kpi-primary::before {
+    background-color: #3b9bad; /* Azul/Cyan Corporativo */
+}
+
+.card-kpi:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+}
+
+    .card-kpi:hover::before {
+        width: 6px;
+        opacity: 1;
+    }
+
+/* ----------------------------------------
+   5. ICONOS KPI
+   ---------------------------------------- */
+.icon-kpi {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-kpi:hover .icon-kpi {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ----------------------------------------
+   6. CONTENEDORES DE GRÁFICOS (Cards)
+   ---------------------------------------- */
+.card-custom {
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+    .card-custom:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(59, 155, 173, 0.1);
+        border-color: #3b9bad;
+    }
+
+/* Cajas de iconos en la cabecera de los gráficos */
+.icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: #3b9bad;
+    transition: transform 0.3s ease;
+}
+
+.card-custom:hover .icon-box {
+    transform: scale(1.1);
+}

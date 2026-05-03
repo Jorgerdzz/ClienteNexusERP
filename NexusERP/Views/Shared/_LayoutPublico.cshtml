@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NexusERP</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+              asp-fallback-href="~/lib/sweetalert2/sweetalert2.min.css"
+              asp-fallback-test-class="swal2-popup"
+              asp-fallback-test-property="display"
+              asp-fallback-test-value="none" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+
+    <link rel="stylesheet" href="~/NexusERP.styles.css" asp-append-version="true" />
+</head>
+<body class="bg-gradient-hero">
+    <header class="border-bottom navbar-bg fixed-top header-blur" style="z-index: 1050">
+        <nav class="container py-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none">
+                    <svg style="height: 1.75rem; width: 1.75rem; color: var(--secondary-color);"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="fs-3 fw-bold text-primary-custom">NexusERP</span>
+                </a>
+
+                <div class="d-none d-md-flex align-items-center gap-4">
+                    <a href="#features" class="nav-link text-secondary fw-medium">Características</a>
+                    <a href="#benefits" class="nav-link text-secondary fw-medium">Beneficios</a>
+                    <a href="#pricing" class="nav-link text-secondary fw-medium">Precios</a>
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <a asp-controller="Account" asp-action="Login" class="btn text-dark px-4 py-2 d-none d-sm-inline-block">
+                        Iniciar Sesión
+                    </a>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary-custom px-4 py-2 rounded">
+                        Empieza Gratis
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" style="margin-top: 90px;">
+        @RenderBody()
+    </main>
+
+    <footer class="text-secondary py-5" style="background-color: var(--primary-color)">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <svg style="height: 1.5rem; width: 1.5rem; color: var(--secondary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <span class="fs-5 fw-bold text-white">NexusERP</span>
+                    </div>
+                    <p class="small">El nexo definitivo entre tus Recursos Humanos y tu Contabilidad.</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-white fw-semibold mb-3">Producto</h4>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="#features" class="text-decoration-none text-secondary">Características</a></li>
+                        <li class="mb-2"><a href="#pricing" class="text-decoration-none text-secondary">Precios</a></li>
+                        <li><a asp-controller="Home" asp-action="Demo" class="text-decoration-none text-secondary">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-white fw-semibold mb-3">Empresa</h4>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a asp-controller="Home" asp-action="About" class="text-decoration-none text-secondary">Sobre nosotros</a></li>
+                        <li class="mb-2"><a asp-controller="Blog" asp-action="Index" class="text-decoration-none text-secondary">Blog</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact" class="text-decoration-none text-secondary">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="text-white fw-semibold mb-3">Legal</h4>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-secondary">Privacidad</a></li>
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Terms" class="text-decoration-none text-secondary">Términos</a></li>
+                        <li><a asp-controller="Home" asp-action="Cookies" class="text-decoration-none text-secondary">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-secondary pt-4 text-center small">
+                <p class="mb-0">© 2026 NexusERP. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.bootstrap" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+                asp-fallback-src="~/lib/sweetalert2/sweetalert2.all.min.js"
+                asp-fallback-test="window.Swal"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

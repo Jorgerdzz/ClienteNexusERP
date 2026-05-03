@@ -1,0 +1,246 @@
+﻿@model NexusERP.ViewModels.RegistroViewModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div style="width: 100%; max-width: 28rem">
+
+    <div class="text-center mb-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-link text-white text-opacity-75 text-decoration-none mb-3">
+            <svg style="width: 16px; height: 16px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span class="small ms-2">Volver</span>
+        </a>
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+            <svg style="width: 40px; height: 40px" class="text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+            <span class="fs-2 fw-bold text-white">NexusERP</span>
+        </div>
+        <p class="text-white opacity-90">Crea tu cuenta gratuita</p>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center gap-2 mb-4" id="progressSteps">
+        <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-semibold step-indicator step-active" id="step1">
+                1
+            </div>
+            <span class="small text-white">Cuenta</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle d-flex align-items-center justify-content-center fw-semibold step-indicator step-inactive" id="step2">
+                2
+            </div>
+            <span class="small text-white">Empresa</span>
+        </div>
+    </div>
+
+    <form asp-controller="Account" asp-action="Register" id="registerForm" method="post">
+        <div class="p-4 bg-white shadow rounded" id="accountStep">
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="NombreUsuario" class="form-label small fw-medium"></label>
+                <input asp-for="NombreUsuario" class="form-control" placeholder="Juan Pérez" />
+                <span asp-validation-for="NombreUsuario" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label small fw-medium"></label>
+                <input asp-for="Email" class="form-control" placeholder="tu@email.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label small fw-medium"></label>
+                <input asp-for="Password" class="form-control" placeholder="••••••••" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+                <div class="form-text">Mínimo 4 caracteres</div>
+            </div>
+
+            <button type="button" class="btn btn-primary-custom w-100 py-3 mb-3" id="continueBtn">
+                Continuar
+            </button>
+
+            <p class="text-center text-muted" style="font-size: 0.75rem">
+                Al registrarte, aceptas nuestros
+                <a asp-controller="Home" asp-action="Terms" class="text-link">Términos de Servicio</a> y
+                <a asp-controller="Home" asp-action="Privacy" class="text-link">Política de Privacidad</a>
+            </p>
+
+            <div class="text-center small text-secondary pt-3 border-top mt-3">
+                ¿Ya tienes cuenta?
+                <a asp-controller="Account" asp-action="LogIn" class="text-link text-decoration-none fw-medium">
+                    Inicia sesión
+                </a>
+            </div>
+        </div>
+
+
+        <div class="p-4 bg-white shadow rounded d-none" id="companyStep">
+            <div class="text-center mb-4">
+                <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3 info-box" style="width: 64px; height: 64px;">
+                    <svg style="width: 32px; height: 32px; color: #3b9bad" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+                <h3 class="fs-5 fw-semibold">Configura tu espacio de trabajo</h3>
+                <p class="text-muted small">Información de tu empresa</p>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NombreEmpresa" class="form-label small fw-medium"></label>
+                <input asp-for="NombreEmpresa" class="form-control" placeholder="Mi Empresa S.L." />
+                <span asp-validation-for="NombreEmpresa" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CIF" class="form-label small fw-medium"></label>
+                <input asp-for="CIF" class="form-control" placeholder="B12345678" />
+                <span asp-validation-for="CIF" class="text-danger small"></span>
+                <div class="form-text">Necesario para la configuración fiscal</div>
+            </div>
+
+            <div class="rounded p-3 mb-3 info-box">
+                <h4 class="small fw-semibold mb-2" style="color: #2d3e50">
+                    ✨ Configuración automática incluida:
+                </h4>
+                <ul class="list-unstyled mb-0" style="font-size: 0.75rem">
+                    <li class="d-flex align-items-start gap-2 mb-1">
+                        <svg style="width: 12px; height: 12px; color: #3b9bad; margin-top: 2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Plan General Contable adaptado</span>
+                    </li>
+                    <li class="d-flex align-items-start gap-2 mb-1">
+                        <svg style="width: 12px; height: 12px; color: #3b9bad; margin-top: 2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Configuración de retenciones e impuestos</span>
+                    </li>
+                    <li class="d-flex align-items-start gap-2">
+                        <svg style="width: 12px; height: 12px; color: #3b9bad; margin-top: 2px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Plantillas de nómina personalizadas</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary flex-fill" id="backBtn">
+                    Atrás
+                </button>
+                <button type="submit" class="btn btn-primary-custom flex-fill py-3">
+                    Crear cuenta
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="text-center mt-3 text-white small" style="opacity: 0.7">
+        <p class="d-flex align-items-center justify-content-center gap-2 mb-0">
+            <span class="fs-5">🔒</span>
+            Conexión segura y encriptada
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            const accountStep = $('#accountStep');
+            const companyStep = $('#companyStep');
+            const step1 = $('#step1');
+            const step2 = $('#step2');
+            const continueBtn = $('#continueBtn');
+            const backBtn = $('#backBtn');
+            const form = $('#registerForm');
+
+            const serverErrors = $('.validation-summary-errors ul li');
+            if (serverErrors.length > 0) {
+                let errorMessages = "";
+                serverErrors.each(function () {
+                    let text = $(this).text().trim();
+                    if (text !== "") {
+                        errorMessages += text + "\n";
+                    }
+                });
+
+                if (errorMessages !== "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en el registro',
+                        text: errorMessages,
+                        confirmButtonColor: '#3b9bad'
+                    });
+
+                    accountStep.addClass('d-none');
+                    companyStep.removeClass('d-none');
+                    step1.removeClass('step-active').addClass('step-inactive');
+                    step2.removeClass('step-inactive').addClass('step-active');
+                }
+            }
+
+            // 2. VALIDAR Y CONTINUAR AL PASO 2
+            continueBtn.on('click', function () {
+                let esValidoPaso1 = true;
+                let datosUsuario = ['NombreUsuario', 'Email', 'Password'];
+
+                datosUsuario.forEach(function(dato){
+                    if(!$('[name="' + dato + '"]').valid()){
+                        esValidoPaso1 = false;
+                    }
+                });
+
+                if(!esValidoPaso1){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Datos incompletos',
+                        text: 'Revisa los campos marcados en rojo.',
+                        confirmButtonColor: '#3b9bad'
+                    });
+                    return;
+                }
+
+                // Cambiar de paso
+                accountStep.addClass('d-none');
+                companyStep.removeClass('d-none');
+                step1.removeClass('step-active').addClass('step-inactive');
+                step2.removeClass('step-inactive').addClass('step-active');
+            });
+
+            // 3. VOLVER AL PASO 1
+            backBtn.on('click', function () {
+                companyStep.addClass('d-none');
+                accountStep.removeClass('d-none');
+                step2.removeClass('step-active').addClass('step-inactive');
+                step1.removeClass('step-inactive').addClass('step-active');
+            });
+
+            form.on('submit', function (e) {
+                // Comprobamos que el paso 2 esté bien relleno
+                if (!form.valid()) {
+                    e.preventDefault(); // Si faltan datos, detenemos el envío
+                    return;
+                }
+                Swal.fire({
+                    title: 'Creando tu cuenta...',
+                    html: 'Configurando tu entorno de trabajo.<br>Por favor, espera.',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
+        });
+    </script>
+}

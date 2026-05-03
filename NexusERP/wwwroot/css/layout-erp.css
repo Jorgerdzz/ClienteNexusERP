@@ -1,0 +1,242 @@
+﻿/* wwwroot/css/layout-erp.css */
+
+.erp-wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.erp-sidebar {
+    width: 260px;
+    background-color: #2d3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.erp-brand {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+}
+
+.sidebar-nav {
+    flex-grow: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: rgba(255, 255, 255, 0.7) !important;
+    text-decoration: none !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+    .sidebar-link:hover {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-link.active {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-left-color: #3b9bad;
+    }
+
+.erp-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.erp-topbar {
+    height: 70px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.search-bar-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    background-color: #f1f3f5;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #495057;
+    transition: all 0.2s ease;
+}
+
+    .search-input:focus {
+        outline: none;
+        background-color: white;
+        border-color: #3b9bad;
+        box-shadow: 0 0 0 3px rgba(59, 155, 173, 0.15);
+    }
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #adb5bd;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    background-color: #3b9bad;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.erp-content-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+/* =========================================================
+   ESTILOS PROFESIONALES PARA BÚSQUEDA GLOBAL (SPOTLIGHT)
+========================================================= */
+
+/* Contenedor principal del input para asegurar el posicionamiento */
+.search-bar-container {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    /* Aseguramos que esté por encima de otros elementos pero no del menú dropdown del usuario */
+    z-index: 1010;
+}
+
+    /* Estilo para el input de búsqueda */
+    .search-bar-container .search-input {
+        background-color: #f1f5f9; /* Un gris más suave (Slate 100) */
+        border: 1px solid transparent;
+        border-radius: 8px; /* Bordes más modernos */
+        padding-left: 45px; /* Espacio para el icono SVG */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease-in-out;
+    }
+
+        /* Efecto foco del input */
+        .search-bar-container .search-input:focus {
+            background-color: #ffffff;
+            border-color: var(--secondary-color); /* Usamos tu color secundario de NexusERP */
+            box-shadow: 0 0 0 4px rgba(45, 177, 199, 0.15); /* Halos suave */
+            outline: none;
+        }
+
+/* Estilos para el panel desplegable de resultados */
+#searchResultsDropdown {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0; /* Slate 200 */
+    background-color: #ffffff;
+    /* Sombra profunda y elegante para dar sensación de flotado */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-height: 420px;
+    overflow-y: auto;
+    /* Suavizado de scroll en webkit */
+    scroll-behavior: smooth;
+}
+
+/* Títulos de categoría (EMPLEADOS, FACTURAS...) */
+.search-result-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b; /* Slate 500 */
+    padding: 12px 16px 6px 16px;
+    font-weight: 700;
+    background-color: #f8fafc; /* Slate 50 */
+    border-bottom: 1px solid #e2e8f0;
+    margin-top: 8px;
+}
+
+    .search-result-category:first-child {
+        margin-top: 0;
+    }
+
+/* Cada ítem de resultado (enlace) */
+.search-result-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9; /* Slate 100 */
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: inherit;
+}
+
+    /* Efecto hover elegante en el ítem */
+    .search-result-item:hover {
+        background-color: #f0f9ff; /* Un azul muy claro de fondo (Sky 50) */
+        text-decoration: none;
+    }
+
+/* Contenedor circular para el icono SVG */
+.search-result-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px; /* Bordes redondeados modernos, no círculo perfecto */
+    background-color: #e0f2fe; /* Sky 100 */
+    color: #0284c7; /* Sky 600 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Que no se deforme */
+    transition: transform 0.2s ease;
+}
+
+/* Pequeña animación del icono al pasar el ratón */
+.search-result-item:hover .search-result-icon-wrapper {
+    transform: scale(1.05);
+}
+
+/* Ajuste del SVG dentro del wrapper */
+.search-result-icon-wrapper svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Textos dentro del ítem */
+.search-result-title {
+    font-weight: 600;
+    color: #1e293b; /* Slate 800 */
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+.search-result-subtitle {
+    color: #64748b; /* Slate 500 */
+    font-size: 0.8rem;
+    line-height: 1.3;
+}

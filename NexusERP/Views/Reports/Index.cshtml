@@ -1,0 +1,169 @@
+﻿@model NexusERP.ViewModels.ReportsViewModel
+@{
+    ViewData["Title"] = "Análisis e Informes";
+    ViewData["ActiveMenu"] = "reports";
+
+    // Serializamos las listas a JSON
+    var ingresosJson = System.Text.Json.JsonSerializer.Serialize(Model.IngresosMensuales);
+    var gastosJson = System.Text.Json.JsonSerializer.Serialize(Model.GastosMensuales);
+    var labelsDeptJson = System.Text.Json.JsonSerializer.Serialize(Model.DepartamentosNombres);
+    var datosDeptJson = System.Text.Json.JsonSerializer.Serialize(Model.GastosPorDepartamento);
+}
+
+<link rel="stylesheet" href="~/css/reports-styles.css" asp-append-version="true" />
+
+<main class="bg-light pb-5 min-vh-100">
+    <div id="chartDataContainer"
+         class="container-fluid px-4 pt-4 dashboard-container"
+         data-ingresos="@ingresosJson"
+         data-gastos="@gastosJson"
+         data-labels-dept="@labelsDeptJson"
+         data-datos-dept="@datosDeptJson">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 kpi-wrapper">
+            <div class="mb-3 mb-md-0">
+                <h2 class="fw-bold mb-1 text-dark-heading h3 d-flex align-items-center gap-2">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-secondary">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Análisis e Informes
+                </h2>
+                <p class="text-muted mb-0 small">Rendimiento financiero y distribución de costes estructurales</p>
+            </div>
+
+            <form method="get" class="d-flex align-items-center bg-white p-1 rounded-3 shadow-sm border">
+                <span class="text-muted small ms-2 me-1"><i class="far fa-calendar-alt"></i></span>
+                <select name="anio" class="form-select form-select-sm border-0 shadow-none fw-bold text-dark-heading custom-year-select" onchange="this.form.submit()">
+                    @for (int i = DateTime.Now.Year; i >= DateTime.Now.Year - 3; i--)
+                    {
+                        if (i == Model.AnioActual)
+                        {
+                            <option value="@i" selected>Ejercicio @i</option>
+                        }
+                        else
+                        {
+                            <option value="@i">Ejercicio @i</option>
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-success h-100 p-4 kpi-wrapper" style="animation-delay: 0.1s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Total Ingresos Anual</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #e8f8f0, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#10b981" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark-heading">
+                            @Model.TotalIngresosAnual.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0 text-success"><i class="fas fa-arrow-up me-1"></i>Facturación consolidada</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-danger h-100 p-4 kpi-wrapper" style="animation-delay: 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Costes Salariales</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #fef2f2, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#ef4444" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark-heading">
+                            @Model.TotalGastosAnual.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0 text-danger"><i class="fas fa-chart-bar me-1"></i>Gasto de nóminas</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-primary h-100 p-4 kpi-wrapper" style="animation-delay: 0.3s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Margen Bruto</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #e0f4f7, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#3b9bad" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        @{
+                            string colorBeneficio = Model.BeneficioAnual >= 0 ? "text-success" : "text-danger";
+                            string iconoBeneficio = Model.BeneficioAnual >= 0 ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
+                        }
+                        <h3 class="fw-bold mb-0 @colorBeneficio">
+                            @Model.BeneficioAnual.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0"><i class="fas @iconoBeneficio me-1"></i>Rendimiento neto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-8">
+                <div class="card custom-card card-custom h-100 p-4 kpi-wrapper" style="animation-delay: 0.4s;">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark-heading mb-1">Evolución Anual</h5>
+                            <p class="text-muted small mb-0">Comparativa mensual de Ingresos vs Costes Salariales</p>
+                        </div>
+                        <div class="icon-box shadow-sm flex-shrink-0">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="chart-body" style="height: 400px; position: relative;">
+                        <canvas id="evolucionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card custom-card card-custom h-100 p-4 kpi-wrapper" style="animation-delay: 0.5s;">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark-heading mb-1">Costes por Área</h5>
+                            <p class="text-muted small mb-0">Distribución departamental</p>
+                        </div>
+                        <div class="icon-box shadow-sm flex-shrink-0">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="chart-body d-flex justify-content-center align-items-center" style="height: 400px; position: relative;">
+                        <canvas id="deptChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/reports-charts.js" asp-append-version="true"></script>
+}

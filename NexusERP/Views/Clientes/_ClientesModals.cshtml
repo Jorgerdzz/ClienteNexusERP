@@ -1,0 +1,84 @@
+﻿<div class="modal fade" id="modalCrearCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1rem;">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark">Nuevo Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="Create" asp-controller="Clientes" method="post">
+                <div class="modal-body py-4">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium text-secondary small mb-1">Razón Social / Nombre</label>
+                        <input type="text" name="razonSocial" required class="form-control bg-light" placeholder="Ej: Nexus Tech S.L." />
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary small mb-1">CIF / NIF</label>
+                            <input type="text" name="cifNif" required class="form-control bg-light" placeholder="Ej: B12345678" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary small mb-1">Email de Contacto</label>
+                            <input type="email" name="email" class="form-control bg-light" placeholder="contacto@empresa.com" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn text-muted fw-medium px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary-custom px-4 rounded-3 shadow-sm">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 1rem;">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark">Editar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form asp-action="Edit" asp-controller="Clientes" method="post">
+                <div class="modal-body py-4">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="Id" id="edit-id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium text-secondary small mb-1">Razón Social / Nombre</label>
+                        <input type="text" name="razonSocial" id="edit-razon" required class="form-control bg-light" />
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary small mb-1">CIF / NIF</label>
+                            <input type="text" name="cifNif" id="edit-cif" required class="form-control bg-light" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-secondary small mb-1">Email de Contacto</label>
+                            <input type="email" name="email" id="edit-email" class="form-control bg-light" />
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="activo" id="edit-activo" value="true">
+                            <label class="form-check-label fw-medium text-secondary small" for="edit-activo">Cliente Activo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn text-muted fw-medium px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn text-white fw-medium px-4 rounded-3 shadow-sm" style="background-color: var(--primary-color);">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

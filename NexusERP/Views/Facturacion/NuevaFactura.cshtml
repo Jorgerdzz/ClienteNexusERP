@@ -1,0 +1,162 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Emitir Nueva Factura";
+    ViewData["ActiveMenu"] = "facturacion";
+}
+
+
+<main class="bg-light pb-5 min-vh-100">
+    <div class="container-fluid px-4 pt-4">
+
+        <!-- Header de página mejorado -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 page-header">
+            <div class="mb-3 mb-md-0">
+                <h1 class="h3 fw-bold mb-1">Emitir Nueva Factura</h1>
+                <p class="text-muted small mb-0">Rellena los datos para generar la factura y su asiento contable automáticamente.</p>
+            </div>
+            <a asp-action="Index" class="btn btn-back">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Volver al Panel
+            </a>
+        </div>
+
+        <!-- Card principal de la factura -->
+        <div class="invoice-card">
+
+            <!-- Header con datos principales -->
+            <div class="invoice-header-bg">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Cliente / Receptor
+                        </label>
+                        <select id="clienteId" class="form-select input-clean form-select-lg">
+                            <option value="">-- Seleccione un cliente de la cartera --</option>
+                            @if (ViewBag.Clientes != null)
+                            {
+                                foreach (var cliente in ViewBag.Clientes)
+                                {
+                                    <option value="@cliente.Id">@cliente.RazonSocial (@cliente.CifNif)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                            </svg>
+                            Nº de Factura
+                        </label>
+                        <input type="text" id="numeroFactura" class="form-control input-clean form-control-lg" value="FAC-@DateTime.Now.ToString("yyyyMM")-001" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Fecha de Emisión
+                        </label>
+                        <input type="date" id="fechaEmision" class="form-control input-clean form-control-lg" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de conceptos -->
+            <div class="concepts-section">
+                <div class="concepts-header">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                    <h6 class="fw-bold text-dark mb-0">Conceptos Facturados</h6>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-invoice w-100" id="tablaLineas">
+                        <thead>
+                            <tr>
+                                <th style="width: 45%;">Descripción del Servicio / Producto</th>
+                                <th style="width: 15%;" class="text-center">Cantidad</th>
+                                <th style="width: 15%;" class="text-end">Precio Ud. (€)</th>
+                                <th style="width: 15%;" class="text-end">Total Fila</th>
+                                <th style="width: 10%;" class="text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lineasBody">
+                            <tr class="linea-factura">
+                                <td>
+                                    <input type="text" class="form-control input-clean concepto" placeholder="Ej: Consultoría informática..." required>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control input-clean text-center cantidad" value="1" min="0.01" step="0.01" required onchange="calcularTotales()">
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control input-clean text-end precio" value="0.00" min="0.00" step="0.01" required onchange="calcularTotales()" onkeyup="calcularTotales()">
+                                </td>
+                                <td class="text-end align-middle total-fila">
+                                    0.00 €
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-link btn-delete-line p-0" onclick="eliminarLinea(this)" title="Eliminar línea">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" class="btn btn-add-concept" onclick="addLinea()">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Añadir Concepto
+                </button>
+
+                <!-- Totales y botón de envío -->
+                <div class="row justify-content-end mt-5">
+                    <div class="col-md-5 col-lg-4">
+                        <div class="totals-box">
+                            <div class="total-row subtotal">
+                                <span class="total-label">Base Imponible</span>
+                                <span class="total-amount" id="txtSubtotal">0.00 €</span>
+                            </div>
+                            <div class="total-row">
+                                <span class="total-label">IVA (21%)</span>
+                                <span class="total-amount" id="txtIva">0.00 €</span>
+                            </div>
+                            <div class="total-row final">
+                                <span class="total-label">Total Factura</span>
+                                <span class="total-amount" id="txtTotal">0.00 €</span>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-submit-invoice w-100 mt-4" id="btnGuardarFactura"
+                                data-url-post="@Url.Action("GuardarFactura", "Facturacion")"
+                                data-url-redirect="@Url.Action("Diario", "Accounting")">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="me-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Emitir y Contabilizar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/nueva-factura.js" asp-append-version="true"></script>
+}

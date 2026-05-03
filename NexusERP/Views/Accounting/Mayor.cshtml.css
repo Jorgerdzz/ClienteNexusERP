@@ -1,0 +1,185 @@
+﻿/* ========================================
+   VISTA: LIBRO MAYOR
+   Estilos independientes y completos
+   ======================================== */
+
+/* ----------------------------------------
+   1. ANIMACIONES BASE
+   ---------------------------------------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpi-wrapper {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.table-row-animate {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ----------------------------------------
+   2. TIPOGRAFÍA Y COLORES
+   ---------------------------------------- */
+.text-dark-heading {
+    color: #1e293b;
+}
+
+.text-brand {
+    color: #3b9bad; /* Color principal de marca */
+}
+
+/* ----------------------------------------
+   3. NAVEGACIÓN (Estilo Pills)
+   ---------------------------------------- */
+.custom-nav-pills .acct-nav-link {
+    color: #64748b;
+    transition: all 0.2s ease-in-out;
+}
+
+    .custom-nav-pills .acct-nav-link.active {
+        background-color: #3b9bad;
+        color: white !important;
+        box-shadow: 0 4px 6px -1px rgba(59, 155, 173, 0.2);
+    }
+
+.custom-nav-pills .hover-bg-light:hover {
+    background-color: #f8fafc;
+    color: #334155 !important;
+}
+
+/* ----------------------------------------
+   4. TARJETAS, CAJAS Y ESTADOS VACÍOS
+   ---------------------------------------- */
+.custom-card {
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .custom-card:hover {
+        box-shadow: 0 12px 24px rgba(59, 155, 173, 0.1);
+        border-color: #3b9bad;
+    }
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.1), rgba(59, 155, 173, 0.05));
+    color: #3b9bad;
+}
+
+.empty-state-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border: 1px dashed #e2e8f0;
+    border-radius: 1.5rem;
+}
+
+/* Caja de Saldo Final (Extracto) */
+.bank-statement-card {
+    background: linear-gradient(135deg, rgba(59, 155, 173, 0.08), rgba(59, 155, 173, 0.02));
+    border: 1px solid rgba(59, 155, 173, 0.2);
+}
+
+.icon-brand {
+    color: #3b9bad;
+}
+
+/* Separador lateral en escritorio para el saldo */
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid rgba(59, 155, 173, 0.2) !important;
+    }
+}
+
+/* ----------------------------------------
+   5. BOTONES E INPUTS
+   ---------------------------------------- */
+.btn-brand {
+    background-color: #3b9bad;
+    border-color: #3b9bad;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+    .btn-brand:hover {
+        background-color: #2f7c8a;
+        border-color: #2f7c8a;
+        color: white;
+    }
+
+.custom-input {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+    .custom-input:focus {
+        border-color: #3b9bad;
+        box-shadow: none; /* Quitamos el glow por defecto si va en input-group */
+    }
+
+/* Ajuste específico para input groups en los filtros */
+.filter-bar .input-group:focus-within {
+    box-shadow: 0 0 0 3px rgba(59, 155, 173, 0.15) !important;
+    border-radius: 0.5rem;
+}
+
+    .filter-bar .input-group:focus-within .input-group-text,
+    .filter-bar .input-group:focus-within .custom-input {
+        border-color: #3b9bad;
+    }
+
+/* Interacción sutil en botón secundario */
+.btn-outline-secondary svg {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-outline-secondary:hover svg {
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------
+   6. TABLA DEL MAYOR
+   ---------------------------------------- */
+.custom-table th {
+    font-weight: 600;
+    color: #64748b;
+}
+
+.custom-table td {
+    border-bottom: 1px solid #f8fafc;
+}
+
+.custom-table tbody tr.table-row-animate {
+    transition: background-color 0.2s ease;
+}
+
+    .custom-table tbody tr.table-row-animate:hover {
+        background-color: #f8fafc;
+    }
+
+/* Fila de Saldo Inicial (Tratamiento especial) */
+.row-saldo-inicial {
+    background-color: #f8fafc;
+    border-bottom: 2px dashed #cbd5e1 !important;
+}
+
+    .row-saldo-inicial:hover {
+        background-color: #f1f5f9;
+    }

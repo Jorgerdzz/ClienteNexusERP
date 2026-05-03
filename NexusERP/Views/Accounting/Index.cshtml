@@ -1,0 +1,184 @@
+﻿@model DashboardFinancieroViewModel
+@{
+    ViewData["Title"] = "Dashboard Financiero";
+    ViewData["ActiveMenu"] = "accounting";
+}
+
+<main class="bg-light pb-5 min-vh-100">
+    <div class="container-fluid px-4 pt-4 dashboard-container">
+
+        <div class="d-flex justify-content-between align-items-end mb-4 kpi-wrapper">
+            <div>
+                <h2 class="fw-bold mb-1 text-dark-heading">Contabilidad y Finanzas</h2>
+                <p class="text-muted mb-0 small">Gestión financiera, rendimiento y registros contables</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary d-flex align-items-center gap-2 px-3 shadow-sm rounded-3">
+                    <svg style="width: 18px; height: 18px" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Exportar Informe
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-4 kpi-wrapper" style="animation-delay: 0.1s;">
+            <div class="acct-nav-container custom-nav-pills d-inline-flex p-1 rounded-4 shadow-sm bg-white border">
+                <a asp-action="Index" class="acct-nav-link active rounded-pill px-4 py-2 text-decoration-none fw-medium transition-all">
+                    <i class="fas fa-chart-line me-2"></i> Dashboard
+                </a>
+                <a asp-action="PlanContable" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-file-alt me-2"></i> Plan Contable
+                </a>
+                <a asp-action="Diario" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="far fa-calendar-alt me-2"></i> Libro Diario
+                </a>
+                <a asp-action="Mayor" class="acct-nav-link rounded-pill px-4 py-2 text-decoration-none fw-medium text-muted transition-all hover-bg-light">
+                    <i class="fas fa-search me-2"></i> Libro Mayor
+                </a>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-success h-100 p-4 kpi-wrapper" style="animation-delay: 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Total Ingresos (Año)</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #e8f8f0, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#10b981" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark-heading">
+                            @Model.TotalIngresos.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0 text-success"><i class="fas fa-arrow-up me-1"></i>Ingresos acumulados</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-danger h-100 p-4 kpi-wrapper" style="animation-delay: 0.3s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Total Gastos (Año)</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #fef2f2, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#ef4444" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                <polyline points="17 18 23 18 23 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold mb-0 text-dark-heading">
+                            @Model.TotalGastos.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0 text-danger"><i class="fas fa-arrow-down me-1"></i>Gastos acumulados</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-kpi card-kpi-primary h-100 p-4 kpi-wrapper" style="animation-delay: 0.4s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <p class="text-muted small fw-semibold text-uppercase mb-0">Resultado Neto</p>
+                        <div class="icon-kpi" style="background: linear-gradient(135deg, #e0f4f7, #ffffff);">
+                            <svg width="24" height="24" fill="none" stroke="#3b9bad" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        @{
+                            string colorResultado = Model.BeneficioNeto >= 0 ? "text-success" : "text-danger";
+                            string iconoResultado = Model.BeneficioNeto >= 0 ? "fa-plus-circle" : "fa-minus-circle";
+                        }
+                        <h3 class="fw-bold mb-0 @colorResultado">
+                            @Model.BeneficioNeto.ToString("N2") <span class="fs-6 fw-normal text-muted">€</span>
+                        </h3>
+                        <p class="text-muted small mt-1 mb-0"><i class="fas @iconoResultado me-1"></i>Balance del ejercicio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="fw-bold text-dark-heading mb-3 px-1 kpi-wrapper" style="animation-delay: 0.5s;">Análisis Gráfico</h5>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-5">
+                <div class="card custom-card card-custom h-100 p-4 kpi-wrapper" style="animation-delay: 0.6s;">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark-heading mb-1">Gastos por Naturaleza</h5>
+                            <p class="text-muted small mb-0">Distribución porcentual de los gastos</p>
+                        </div>
+                        <div class="icon-box shadow-sm flex-shrink-0">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    @if (Model.TotalGastos > 0)
+                    {
+                        <div style="height: 300px; display: flex; justify-content: center; position: relative;">
+                            <canvas id="chartGastos"
+                                    data-labels='@Html.Raw(Json.Serialize(Model.NombresCuentasGasto))'
+                                    data-values='@Html.Raw(Json.Serialize(Model.ImportesGasto))'>
+                            </canvas>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state-card text-center py-5 px-3 mt-3">
+                            <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3"
+                                 style="width: 60px; height: 60px; background: #f8fafc; color: #cbd5e1;">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                                </svg>
+                            </div>
+                            <h6 class="text-dark-heading fw-semibold mb-1">Sin datos</h6>
+                            <p class="text-muted small mb-0">No hay gastos registrados este año.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card custom-card card-custom h-100 p-4 kpi-wrapper" style="animation-delay: 0.7s;">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark-heading mb-1">Ingresos vs Gastos</h5>
+                            <p class="text-muted small mb-0">Comparativa mensual del ejercicio actual</p>
+                        </div>
+                        <div class="icon-box shadow-sm flex-shrink-0">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="chartEvolucion"
+                                data-labels='@Html.Raw(Json.Serialize(Model.Meses))'
+                                data-ingresos='@Html.Raw(Json.Serialize(Model.IngresosMensuales))'
+                                data-gastos='@Html.Raw(Json.Serialize(Model.GastosMensuales))'>
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/dashboard-financiero.js" asp-append-version="true"></script>
+}

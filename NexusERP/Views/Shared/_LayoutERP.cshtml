@@ -1,0 +1,212 @@
+﻿@{
+    // Obtenemos de la URL en qué Controlador y en qué Acción estamos exactamente
+    string controladorActual = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string accionActual = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+    string nombreUsuario = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+    string inicialesUsuario = User.FindFirst("Iniciales")?.Value;
+    string nombreEmpresa = User.FindFirst("NombreEmpresa")?.Value;
+    bool isAdmin = User.IsInRole(NexusERP.Enums.RolesUsuario.Admin.ToString());
+
+    var alert = TempData.GetAlert();
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NexusERP</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+              asp-fallback-href="~/lib/sweetalert2/sweetalert2.min.css"
+              asp-fallback-test-class="swal2-popup" asp-fallback-test-property="display" asp-fallback-test-value="none" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+
+    <link rel="stylesheet" href="~/css/layout-erp.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/NexusERP.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="erp-wrapper">
+
+        <aside class="erp-sidebar">
+            <div class="erp-brand">
+                <a asp-controller="Dashboard" asp-action="Index" class="d-flex align-items-center gap-2 text-white text-decoration-none">
+                    <svg style="width: 24px; height: 24px; color: var(--secondary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="fs-4 fw-bold">NexusERP</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav d-flex flex-column">
+
+                @if (isAdmin)
+                {
+                    <a asp-controller="Dashboard" asp-action="Index" class="sidebar-link @(controladorActual == "Dashboard" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        Dashboard
+                    </a>
+
+                    <a asp-controller="Departaments" asp-action="Index" class="sidebar-link @(controladorActual == "Departaments" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Departamentos
+                    </a>
+
+                    <a asp-controller="Facturacion" asp-action="Index" class="sidebar-link @(controladorActual == "Facturacion" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px; margin-right: 5px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 2a1 1 0 011-1h8a1 1 0 011 1v2h-2V2H8v2H7V2zm0 3h10v1H7V5zm-2 0a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V10h-2v10H5V10h10V8H5z"></path>
+                        </svg>
+                        Facturación
+                    </a>
+
+                    <a asp-controller="Payroll" asp-action="Index" class="sidebar-link @(controladorActual == "Payroll" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Nóminas
+                    </a>
+
+                    <a asp-controller="Accounting" asp-action="Index" class="sidebar-link @(controladorActual == "Accounting" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Contabilidad
+                    </a>
+
+                    <a asp-controller="Reports" asp-action="Index" class="sidebar-link @(controladorActual == "Reports" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Estadísticas y gráficos
+                    </a>
+
+                    <div class="mt-auto"></div>
+
+                    <a asp-controller="Settings" asp-action="Index" class="sidebar-link @(controladorActual == "Settings" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Settings
+                    </a>
+
+                }
+                else
+                {
+                    <a asp-controller="PortalEmpleado" asp-action="Index" class="sidebar-link @(controladorActual == "PortalEmpleado" && accionActual == "Index" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        Mi panel
+                    </a>
+
+                    <a asp-controller="PortalEmpleado" asp-action="MisNominas" class="sidebar-link @(controladorActual == "PortalEmpleado" && accionActual == "MisNominas" ? "active" : "")">
+                        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Mis Nóminas
+                    </a>
+                }
+
+            </nav>
+        </aside>
+
+        <main class="erp-main">
+
+            <header class="erp-topbar">
+                <div class="search-bar-container">
+                    <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+
+                    <input type="text" id="globalSearchInput" class="form-control search-input"
+                           placeholder="Buscar empleados, facturas, clientes..." autocomplete="off"
+                           data-url="@Url.Action("GlobalSearch", "Search")">
+
+                    <div id="searchResultsDropdown" class="d-none position-absolute w-100">
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-4">
+                    <button class="btn btn-link text-secondary p-0 position-relative">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                    </button>
+
+                    <div class="dropdown">
+                        <button class="btn btn-link text-decoration-none text-dark d-flex align-items-center gap-2 p-0" type="button" data-bs-toggle="dropdown">
+                            <div class="user-avatar">@inicialesUsuario</div>
+                            <div class="text-start d-none d-sm-block">
+                                <div class="fw-bold" style="font-size: 0.9rem; line-height: 1.2">@nombreUsuario</div>
+                                <div class="text-muted" style="font-size: 0.75rem;">@nombreEmpresa</div>
+                            </div>
+                            <svg width="16" height="16" class="text-muted ms-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index">Mi Perfil</a></li>
+                            @if (isAdmin)
+                            {
+                                <li><a class="dropdown-item" asp-controller="Settings" asp-action="Index">Configuración</a></li>
+                            }
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="LogOut">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="erp-content-body">
+                @RenderBody()
+            </div>
+
+        </main>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="~/js/sweetalerts/sweetalert.service.js"></script>
+        <script src="~/js/modules/global-delete.js"></script>
+        <script src="~/js/modules/global-forms.js" asp-append-version="true"></script>
+        <script src="~/js/modules/login.js"></script>
+        <script src="~/js/modules/spotlight.js"></script>
+        <script src="~/lib/Chart.js/chart.umd.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.bootstrap" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+                asp-fallback-src="~/lib/sweetalert2/sweetalert2.all.min.js" asp-fallback-test="window.Swal"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"
+                asp-fallback-src="~/lib/Chart.js/chart.umd.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/sweetalerts/sweetalert.service.js" asp-append-version="true"></script>
+        <script src="~/js/modules/global-delete.js" asp-append-version="true"></script>
+        <script src="~/js/modules/global-forms.js" asp-append-version="true"></script>
+        <script src="~/js/modules/login.js" asp-append-version="true"></script>
+        <script src="~/js/modules/spotlight.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @if (alert != null)
+    {
+        var jsonOptions = new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase };
+        var alertJson = System.Text.Json.JsonSerializer.Serialize(alert, jsonOptions);
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                SweetAlertService.show(@Html.Raw(alertJson));
+            });
+        </script>
+    }
+
+</body>
+</html>

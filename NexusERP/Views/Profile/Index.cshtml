@@ -1,0 +1,287 @@
+﻿@model NexusERP.ViewModels.MiPerfilViewModel
+
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+
+<div class="container-fluid py-4 min-vh-100" style="background-color: #f8fafc; animation: fadeIn 0.5s ease-out forwards;">
+    
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-end mb-4 bg-white p-4 rounded-4 shadow-sm border border-light" style="position: relative; overflow: hidden;">
+        <div style="position: absolute; top:0; left:0; right:0; height: 4px; background: linear-gradient(90deg, var(--secondary-color), var(--success-color));"></div>
+        <div>
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div class="rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--secondary-light, #e0f4f7) 0%, #d1f0f5 100%);">
+                    <svg width="24" height="24" fill="none" stroke="var(--secondary-color)" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0 text-dark-heading" style="font-size: 1.75rem; letter-spacing: -0.5px;">Mi Perfil</h2>
+                    <p class="text-muted mb-0 mt-1 d-flex align-items-center gap-2">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Administra tus datos personales y configuración de cuenta.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- COLUMNA IZQUIERDA: RESUMEN DE PERFIL Y DATOS DE EMPLEADO -->
+        <div class="col-lg-4">
+            <!-- TARJETA DE USUARIO -->
+            <div class="card bg-white rounded-4 shadow-sm border border-light mb-4" style="position: relative; overflow: hidden;">
+                <div style="height: 100px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));"></div>
+                <div class="card-body px-4 pb-4 pt-0 text-center">
+                    <div class="position-relative d-inline-block shadow-sm rounded-circle mb-3" style="margin-top: -40px; background-color: white; padding: 4px;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--secondary-light, #e0f4f7), #d1f0f5); border: 2px solid white;">
+                            <span class="fs-2 fw-bold text-secondary-custom">
+                                @(string.IsNullOrEmpty(Model.NombreUsuario) ? "?" : Model.NombreUsuario.Substring(0, 1).ToUpper())
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="fw-bold mb-1 text-dark-heading">@Model.NombreUsuario</h4>
+                    <p class="text-muted mb-3">@Model.Email</p>
+
+                    <div class="d-flex align-items-center justify-content-center gap-2 bg-light rounded-pill py-2 px-3 mx-auto border" style="width: fit-content;">
+                        <svg width="16" height="16" fill="none" stroke="var(--primary-color)" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <span class="fw-medium text-dark" style="font-size: 0.9rem;">
+                            @(string.IsNullOrEmpty(Model.NombreEmpresa) ? "Empresa Administradora" : Model.NombreEmpresa)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.EstaVinculadoAEmpleado)
+            {
+                <!-- DATOS PROFESIONALES (EMPLEADO) -->
+                <div class="card bg-white rounded-4 shadow-sm border border-light">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+                            <div class="p-2 bg-success bg-opacity-10 text-success rounded-3">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
+                                </svg>
+                            </div>
+                            <h5 class="fw-bold mb-0 text-dark-heading m-0">Datos Profesionales</h5>
+                        </div>
+
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Nombre Completo</span>
+                                <span class="d-block fw-semibold text-dark">@Model.EmpleadoNombreCompleto</span>
+                            </li>
+                            <li class="mb-4">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">DNI / NIF</span>
+                                        <span class="d-block fw-semibold text-dark">@Model.EmpleadoDNI</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Teléfono</span>
+                                        <span class="d-block fw-semibold text-dark">@Model.EmpleadoTelefono</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Departamento</span>
+                                <span class="d-block fw-semibold text-dark">
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary-custom rounded-pill px-3 py-1 border border-secondary border-opacity-25">@Model.DepartamentoNombre</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="d-block text-muted small fw-medium text-uppercase mb-1" style="letter-spacing: 0.5px;">Antigüedad</span>
+                                <span class="d-block fw-semibold text-dark d-flex align-items-center gap-2">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-muted">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Desde el @Model.FechaAntiguedad
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- AVISO DE NO EMPLEADO -->
+                <div class="card border-0 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%);">
+                    <div class="card-body p-4 text-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-white shadow-sm mx-auto mb-3 text-warning border border-warning border-opacity-25" style="width: 56px; height: 56px;">
+                            <svg width="28" height="28" fill="none" stroke="#d97706" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                        </div>
+                        <h6 class="fw-bold" style="color: #d97706; font-size: 1.1rem;">Cuenta Administrativa</h6>
+                        <p class="small mb-0 mt-2 mx-auto" style="color: #92400e; max-width: 90%; line-height: 1.5;">Esta cuenta gestiona la empresa de forma global. No tiene vinculado un perfil de empleado activo.</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- COLUMNA DERECHA: FORMULARIOS DE EDICIÓN -->
+        <div class="col-lg-8">
+            <div class="card bg-white rounded-4 shadow-sm border border-light h-100">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <ul class="nav nav-pills custom-tabs mb-4 pb-3 border-bottom gap-2" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rounded-pill fw-semibold px-4 py-2 d-flex align-items-center gap-2 transition-all" id="datos-tab" data-bs-toggle="pill" data-bs-target="#datos-pane" type="button" role="tab">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                                Datos de Cuenta
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-semibold px-4 py-2 d-flex align-items-center gap-2 transition-all" id="password-tab" data-bs-toggle="pill" data-bs-target="#password-pane" type="button" role="tab">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                Contraseña
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="profileTabsContent">
+                        
+                        <!-- TAB DATOS DE CUENTA -->
+                        <div class="tab-pane fade show active" id="datos-pane" role="tabpanel" tabindex="0">
+                            <h5 class="fw-bold text-dark-heading mb-4">Información de Acceso</h5>
+                            
+                            <form asp-action="UpdateInfo" method="post" class="form-crud">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" asp-for="UsuarioId" />
+                                
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="NombreUsuario" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Nombre de Usuario</label>
+                                            <div class="input-group input-group-custom">
+                                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                    </svg>
+                                                </span>
+                                                <input asp-for="NombreUsuario" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Tu nombre de usuario" />
+                                            </div>
+                                            <span asp-validation-for="NombreUsuario" class="text-danger small mt-1 d-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Email" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Correo Electrónico</label>
+                                            <div class="input-group input-group-custom">
+                                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </span>
+                                                <input asp-for="Email" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="tu@email.com" />
+                                            </div>
+                                            <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end mt-5 pt-4 border-top">
+                                    <button type="submit" class="btn btn-primary-custom px-4 py-2 text-white fw-semibold d-flex align-items-center gap-2 shadow-sm transition-transform hover-lift" style="border-radius: 10px;">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        Guardar Cambios
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB CONTRASEÑA -->
+                        <div class="tab-pane fade" id="password-pane" role="tabpanel" tabindex="0">
+                            <h5 class="fw-bold text-dark-heading mb-4">Cambiar Contraseña</h5>
+                            
+                            <div class="alert px-4 py-3 mb-4 rounded-4 border-0 d-flex align-items-center gap-3 shadow-sm" style="background: linear-gradient(to right, #fff8e6, #fef3c7); border-left: 4px solid var(--warning-color) !important;">
+                                <div class="bg-warning bg-opacity-25 p-2 rounded-circle text-warning flex-shrink-0">
+                                    <svg width="24" height="24" fill="none" stroke="#d97706" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <p class="mb-0 text-dark fw-medium" style="font-size: 0.95rem;">
+                                    Tu nueva contraseña debe contener al menos <strong style="color: #92400e;">6 caracteres</strong> para ser segura. Te recomendamos usar mayúsculas y números.
+                                </p>
+                            </div>
+
+                            <form asp-action="" method="post">
+                                <input type="hidden" asp-for="UsuarioId" />
+                                
+                                <div class="row g-4 mb-4">
+                                    <div class="col-12">
+                                        <div class="form-group mb-4 pb-4 border-bottom">
+                                            <label asp-for="PasswordActual" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Contraseña Actual</label>
+                                            <div class="input-group input-group-custom" style="max-width: 50%;">
+                                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                                    </svg>
+                                                </span>
+                                                <input asp-for="PasswordActual" type="password" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Ingresa tu contraseña actual" />
+                                            </div>
+                                            <span asp-validation-for="PasswordActual" class="text-danger small mt-1 d-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="NuevaPassword" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Nueva Contraseña</label>
+                                            <div class="input-group input-group-custom">
+                                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                                                    </svg>
+                                                </span>
+                                                <input asp-for="NuevaPassword" type="password" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Nueva contraseña" />
+                                            </div>
+                                            <span asp-validation-for="NuevaPassword" class="text-danger small mt-1 d-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ConfirmarPassword" class="form-label fw-bold text-muted mb-2 small text-uppercase" style="letter-spacing: 0.5px;">Confirmar Contraseña</label>
+                                            <div class="input-group input-group-custom">
+                                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                </span>
+                                                <input asp-for="ConfirmarPassword" type="password" class="form-control border-start-0 py-2 ps-0 bg-light" placeholder="Repite la nueva contraseña" />
+                                            </div>
+                                            <span asp-validation-for="ConfirmarPassword" class="text-danger small mt-1 d-block"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end mt-5 pt-4 border-top">
+                                    <button type="submit" class="btn btn-outline-custom px-4 py-2 fw-semibold d-flex align-items-center gap-2 shadow-sm transition-transform hover-lift" style="border-radius: 10px;">
+                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                        </svg>
+                                        Actualizar Contraseña
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

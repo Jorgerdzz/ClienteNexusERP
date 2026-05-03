@@ -1,0 +1,81 @@
+﻿/* -------------------------------------------
+   ESTILOS ESPECÍFICOS: MÓDULO DE NÓMINAS
+------------------------------------------- */
+
+/* Tarjetas base de Nóminas */
+.card-payroll {
+    border-radius: 1.25rem; /* Un borde un poco más redondo y amigable */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Selectores de Período (Inputs) */
+.form-select-payroll {
+    border-color: #d1d5db;
+    border-radius: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+    .form-select-payroll:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.25rem rgba(59, 155, 173, 0.25); /* Sombra usando tu color secundario */
+    }
+
+/* Tabla de Nóminas */
+.table-payroll th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.table-payroll td {
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+/* Hover suave en la fila para invitar a hacer clic */
+.table-payroll tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Avatar con iniciales (Toque Premium) */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+}
+
+/* Asegurar que los colores de éxito pillen bien la variable global */
+.text-success {
+    color: var(--success-color) !important;
+}
+
+/* Refuerzo para los colores de estado de las Nóminas */
+.bg-warning-light {
+    background-color: #fff8e6 !important;
+}
+
+.text-warning-custom {
+    color: #b78a00 !important;
+}
+
+.btn-outline-secondary {
+    border-color: #d1d5db;
+    color: #4b5563;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: #f3f4f6;
+        color: #111827;
+        border-color: #d1d5db;
+    }
+
