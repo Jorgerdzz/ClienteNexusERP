@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    @if (Model.Empleados.Count != 0)
+    @if (Model.Empleados != null && Model.Empleados.Count != 0)
     {
         <div class="table-container">
             <div class="table-responsive">
@@ -169,22 +169,48 @@
                                 </tr>
                             }
                         }
-                        else
-                        {
-                            <tr>
-                                <td colspan="7" class="text-center py-5 text-muted-custom">
-                                    No hay empleados registrados en este departamento.
-                                </td>
-                            </tr>
-                        }
                     </tbody>
                 </table>
             </div>
         </div>
     }
+    else
+    {
+        <div class="card border-0 shadow-sm text-center py-5 mt-4" style="border-radius: 1rem;">
+            <div class="card-body py-5">
+                <div class="mb-4 d-flex justify-content-center">
+                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #f8fafc, #f1f5f9);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h4 class="fw-bold text-dark mb-2">No hay empleados registrados</h4>
+                <p class="text-muted-custom mb-4 mx-auto" style="max-width: 500px;">
+                    Aún no existen empleados en la plantilla o en el departamento seleccionado. Comienza importando tu lista de empleados al sistema.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a asp-controller="Empleados" asp-action="DescargarPlantillaCsvGlobal" class="btn btn-outline-secondary d-flex align-items-center gap-2 px-4 py-2 fw-medium" style="border-radius: 0.5rem;">
+                        <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Descargar Plantilla CSV
+                    </a>
+
+                    <button class="btn btn-primary-custom d-flex align-items-center gap-2 px-4 py-2 fw-medium" data-bs-toggle="modal" data-bs-target="#modal-import-csv-global" style="border-radius: 0.5rem;">
+                        <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        Importar Empleados
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
-
-
 
 @* Modal: Modificar Empleado *@
 <div class="modal fade" id="modal-update-empleado" tabindex="-1" aria-labelledby="modalUpdateEmpLabel" aria-hidden="true">
