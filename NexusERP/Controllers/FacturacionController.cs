@@ -44,17 +44,27 @@ namespace NexusERP.Controllers
             model.PendienteDeCobro = facturasDTO.Where(f => f.Estado == "Pendiente")
                 .Sum(f => f.TotalFactura);
 
-            model.UltimasFacturas = facturasDTO.Take(5).Select(f => new NexusERP.Models.Factura
-            {
-                Id = f.Id,
-                ClienteId = f.ClienteId,
-                NumeroFactura = f.NumeroFactura,
-                FechaEmision = f.FechaEmision,
-                BaseImponible = f.BaseImponible,
-                IvaTotal = f.IvaTotal,
-                TotalFactura = f.TotalFactura,
-                Estado = f.Estado,
-                EsEmitida = f.EsEmitida
+            model.UltimasFacturas = facturasDTO.Take(5).Select(f => {
+                var clienteDTO = clientes.FirstOrDefault(c => c.Id == f.ClienteId);
+
+                return new NexusERP.Models.Factura
+                {
+                    Id = f.Id,
+                    ClienteId = f.ClienteId,
+                    NumeroFactura = f.NumeroFactura,
+                    FechaEmision = f.FechaEmision,
+                    BaseImponible = f.BaseImponible,
+                    IvaTotal = f.IvaTotal,
+                    TotalFactura = f.TotalFactura,
+                    Estado = f.Estado,
+                    EsEmitida = f.EsEmitida,
+                    Cliente = clienteDTO != null ? new NexusERP.Models.Cliente
+                    {
+                        Id = clienteDTO.Id,
+                        RazonSocial = clienteDTO.RazonSocial
+
+                    } : new NexusERP.Models.Cliente { RazonSocial = "Desconocido" }
+                };
             }).ToList();
 
             return View(model);
