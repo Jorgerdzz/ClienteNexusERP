@@ -71,12 +71,12 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     // COMENTADO TEMPORALMENTE PARA LECTURA DE ERRORES EN PRODUCCIÓN
-    // app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
 // FORZAR LA PANTALLA DE ERROR DE DESARROLLADOR
-app.UseDeveloperExceptionPage();
+//app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 app.UseRouting();
