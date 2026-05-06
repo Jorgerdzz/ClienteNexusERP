@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using NexusERP.Enums;
-using NexusERP.Services;
 using NexusERP.Helpers;
+using NexusERP.Services;
 
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
@@ -71,21 +71,21 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     // COMENTADO TEMPORALMENTE PARA LECTURA DE ERRORES EN PRODUCCIÓN
-    app.UseExceptionHandler("/Home/Error");
+    //app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
 // FORZAR LA PANTALLA DE ERROR DE DESARROLLADOR
-//app.UseDeveloperExceptionPage();
+app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthentication(); 
-app.UseAuthorization();  
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapStaticAssets();
-app.UseSession();        
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

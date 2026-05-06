@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.SqlServer.Server;
-using NexusERP.Enums;
+﻿using ApiNexusERP.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using NexusERP.Enums;
 using NexusERP.Models;
 using NexusERP.Services;
 using NexusERP.ViewModels;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using System.Globalization;
-using ApiNexusERP.DTOs;
+using System.Text;
 
 namespace NexusERP.Controllers
 {
@@ -32,7 +28,7 @@ namespace NexusERP.Controllers
             EmpleadosViewModel model = new EmpleadosViewModel();
             var departamentosAPI = await this.serviceDepartamentos.GetDepartamentosAsync();
             model.Departamentos = departamentosAPI.Select(d => new Departamento { Id = d.Id, Nombre = d.Nombre }).ToList();
-            
+
             List<EmpleadoDTO> empleadosDTO;
             if (idDepartamento != null)
             {
@@ -64,7 +60,7 @@ namespace NexusERP.Controllers
         {
             EmpleadoDTO e = await this.serviceEmpleados.FindEmpleadoAsync(id);
             if (e == null) return NotFound();
-            
+
             Empleado empleado = new Empleado
             {
                 Id = e.Id,
@@ -190,13 +186,26 @@ namespace NexusERP.Controllers
                         var empleado = new EmpleadoDTO
                         {
                             DepartamentoId = model.DepartamentoId,
+
                             Nombre = model.Nombre,
                             Apellidos = model.Apellidos,
                             Dni = model.DNI,
                             EmailCorporativo = model.EmailCorporativo,
+
+                            FechaNacimiento = model.FechaNacimiento,
+                            FechaAntiguedad = model.FechaAntiguedad,
+
+                            NumSeguridadSocial = model.NumSeguridadSocial,
+
+                            GrupoCotizacion = (int)model.GrupoCotizacion,
+
+                            EstadoCivil = (int)model.EstadoCivil,
+                            NumeroHijos = model.NumeroHijos,
+                            PorcentajeDiscapacidad = model.PorcentajeDiscapacidad,
+
                             SalarioBrutoAnual = model.SalarioBrutoAnual,
                             Iban = model.IBAN?.Replace(" ", "").ToUpper(),
-                            Activo = true // Por defecto activo
+                            Activo = true
                         };
 
                         var exito = await serviceEmpleados.CreateEmpleadoAsync(empleado);
@@ -313,43 +322,43 @@ namespace NexusERP.Controllers
         }
 
 
-    [HttpGet]
-    public IActionResult DescargarPlantillaCsvGlobal()
-    {
-        var csv = new StringBuilder();
-        // Añadimos "Departamento" como primera columna
-        csv.AppendLine("Departamento,Nombre,Apellidos,DNI,EmailCorporativo,FechaNacimiento,NumSeguridadSocial,FechaAntiguedad,GrupoCotizacion,SalarioBrutoAnual,IBAN,EstadoCivil,NumeroHijos,PorcentajeDiscapacidad");
-
-        // Fila de ejemplo
-        csv.AppendLine("Recursos Humanos,Juan,Perez,12345678A,juan@empresa.com,1990-05-10,123456789012,2022-01-01,5,25000,ES7620770024003102575766,soltero,0,0");
-
-        return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "PlantillaGlobalEmpleados.csv");
-    }
-
-
-    private int? BuscarDepartamentoInteligente(string nombreCsv, List<DepartamentoDTO> departamentosBD)
-    {
-        if (string.IsNullOrWhiteSpace(nombreCsv)) return null;
-
-        string LimpiarTexto(string texto)
+        [HttpGet]
+        public IActionResult DescargarPlantillaCsvGlobal()
         {
-            var normalizedString = texto.Normalize(NormalizationForm.FormD);
-            var stringBuilder = new StringBuilder();
-            foreach (var c in normalizedString)
-            {
-                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-                {
-                    stringBuilder.Append(c);
-                }
-            }
-            return stringBuilder.ToString().Normalize(NormalizationForm.FormC).ToLower().Trim();
+            var csv = new StringBuilder();
+            // Añadimos "Departamento" como primera columna
+            csv.AppendLine("Departamento,Nombre,Apellidos,DNI,EmailCorporativo,FechaNacimiento,NumSeguridadSocial,FechaAntiguedad,GrupoCotizacion,SalarioBrutoAnual,IBAN,EstadoCivil,NumeroHijos,PorcentajeDiscapacidad");
+
+            // Fila de ejemplo
+            csv.AppendLine("Recursos Humanos,Juan,Perez,12345678A,juan@empresa.com,1990-05-10,123456789012,2022-01-01,5,25000,ES7620770024003102575766,soltero,0,0");
+
+            return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "PlantillaGlobalEmpleados.csv");
         }
 
-        string textoLimpio = LimpiarTexto(nombreCsv);
 
-        // Diccionario de Alias 
-        var alias = new Dictionary<string, string>
+        private int? BuscarDepartamentoInteligente(string nombreCsv, List<DepartamentoDTO> departamentosBD)
+        {
+            if (string.IsNullOrWhiteSpace(nombreCsv)) return null;
+
+            string LimpiarTexto(string texto)
+            {
+                var normalizedString = texto.Normalize(NormalizationForm.FormD);
+                var stringBuilder = new StringBuilder();
+                foreach (var c in normalizedString)
+                {
+                    var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                    if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                    {
+                        stringBuilder.Append(c);
+                    }
+                }
+                return stringBuilder.ToString().Normalize(NormalizationForm.FormC).ToLower().Trim();
+            }
+
+            string textoLimpio = LimpiarTexto(nombreCsv);
+
+            // Diccionario de Alias 
+            var alias = new Dictionary<string, string>
         {
             { "rrhh", "recursos humanos" },
             { "it", "informatica" },
@@ -359,91 +368,91 @@ namespace NexusERP.Controllers
         };
 
 
-        if (alias.ContainsKey(textoLimpio))
-        {
-            textoLimpio = alias[textoLimpio];
+            if (alias.ContainsKey(textoLimpio))
+            {
+                textoLimpio = alias[textoLimpio];
+            }
+
+            // Buscamos en la Base de Datos comparando los textos limpios
+            var dept = departamentosBD.FirstOrDefault(d => LimpiarTexto(d.Nombre) == textoLimpio);
+
+            return dept?.Id;
         }
 
-        // Buscamos en la Base de Datos comparando los textos limpios
-        var dept = departamentosBD.FirstOrDefault(d => LimpiarTexto(d.Nombre) == textoLimpio);
 
-        return dept?.Id;
-    }
-
-
-    [HttpPost]
-    public async Task<IActionResult> ImportCsvGlobal(IFormFile file)
-    {
-        if (file == null || file.Length == 0)
+        [HttpPost]
+        public async Task<IActionResult> ImportCsvGlobal(IFormFile file)
         {
-            AlertService.Error(TempData, "Debes seleccionar un archivo CSV.");
+            if (file == null || file.Length == 0)
+            {
+                AlertService.Error(TempData, "Debes seleccionar un archivo CSV.");
+                return RedirectToAction("Index");
+            }
+
+            int empleadosImportados = 0;
+            List<string> errores = new List<string>();
+
+            var departamentosBD = await this.serviceDepartamentos.GetDepartamentosAsync();
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                int fila = 0;
+                while (!reader.EndOfStream)
+                {
+                    var linea = await reader.ReadLineAsync();
+                    fila++;
+
+                    if (fila == 1) continue; // Saltar cabecera
+
+                    var valores = linea.Contains(';') ? linea.Split(';') : linea.Split(',');
+
+                    try
+                    {
+                        int? idDept = BuscarDepartamentoInteligente(valores[0], departamentosBD);
+
+                        if (idDept == null)
+                        {
+                            errores.Add($"Fila {fila}: El departamento '{valores[0]}' no existe en la empresa.");
+                            continue;
+                        }
+
+                        var empleado = new EmpleadoDTO
+                        {
+                            DepartamentoId = idDept.Value,
+                            Nombre = valores[1],
+                            Apellidos = valores[2],
+                            Dni = valores[3],
+                            EmailCorporativo = valores[4],
+                            SalarioBrutoAnual = decimal.Parse(valores[9]),
+                            Iban = valores[10]?.Replace(" ", "").ToUpper(),
+                            Activo = true
+                        };
+
+                        var exito = await serviceEmpleados.CreateEmpleadoAsync(empleado);
+
+                        if (exito != null) empleadosImportados++;
+                        else errores.Add($"Fila {fila}: Error al insertar en base de datos.");
+                    }
+                    catch (Exception ex)
+                    {
+                        errores.Add($"Fila {fila}: Error de formato. Revisa fechas o números. ({ex.Message})");
+                    }
+                }
+            }
+
+            if (errores.Any())
+            {
+                AlertService.Warning(TempData, errores.First());
+            }
+            else
+            {
+                AlertService.Toast(TempData, $"Se importaron {empleadosImportados} empleados correctamente.");
+            }
+
             return RedirectToAction("Index");
         }
 
-        int empleadosImportados = 0;
-        List<string> errores = new List<string>();
-
-        var departamentosBD = await this.serviceDepartamentos.GetDepartamentosAsync();
-
-        using (var reader = new StreamReader(file.OpenReadStream()))
-        {
-            int fila = 0;
-            while (!reader.EndOfStream)
-            {
-                var linea = await reader.ReadLineAsync();
-                fila++;
-
-                if (fila == 1) continue; // Saltar cabecera
-
-                var valores = linea.Contains(';') ? linea.Split(';') : linea.Split(',');
-
-                try
-                {
-                    int? idDept = BuscarDepartamentoInteligente(valores[0], departamentosBD);
-
-                    if (idDept == null)
-                    {
-                        errores.Add($"Fila {fila}: El departamento '{valores[0]}' no existe en la empresa.");
-                        continue;
-                    }
-
-                    var empleado = new EmpleadoDTO
-                    {
-                        DepartamentoId = idDept.Value,
-                        Nombre = valores[1],
-                        Apellidos = valores[2],
-                        Dni = valores[3],
-                        EmailCorporativo = valores[4],
-                        SalarioBrutoAnual = decimal.Parse(valores[9]),
-                        Iban = valores[10]?.Replace(" ", "").ToUpper(),
-                        Activo = true
-                    };
-
-                    var exito = await serviceEmpleados.CreateEmpleadoAsync(empleado);
-
-                    if (exito != null) empleadosImportados++;
-                    else errores.Add($"Fila {fila}: Error al insertar en base de datos.");
-                }
-                catch (Exception ex)
-                {
-                    errores.Add($"Fila {fila}: Error de formato. Revisa fechas o números. ({ex.Message})");
-                }
-            }
-        }
-
-        if (errores.Any())
-        {
-            AlertService.Warning(TempData, errores.First());
-        }
-        else
-        {
-            AlertService.Toast(TempData, $"Se importaron {empleadosImportados} empleados correctamente.");
-        }
-
-        return RedirectToAction("Index");
-    }
-
-    private EstadoCivil GetEstadoCivil(string estadoCivilStr)
+        private EstadoCivil GetEstadoCivil(string estadoCivilStr)
         {
             return estadoCivilStr.ToLower() switch
             {
