@@ -66,7 +66,20 @@ builder.Services.AddTransient<ServiceNominas>();
 builder.Services.AddTransient<ServiceUsuarios>();
 builder.Services.AddTransient<ServiceEmpleados>();
 
+// =======================================================
+// 🌍 CONFIGURACIÓN DE CULTURA (Puntos y Comas)
+// =======================================================
+var defaultCulture = new System.Globalization.CultureInfo("es-ES");
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(defaultCulture);
+    options.SupportedCultures = new List<System.Globalization.CultureInfo> { defaultCulture };
+    options.SupportedUICultures = new List<System.Globalization.CultureInfo> { defaultCulture };
+});
+
 var app = builder.Build();
+
+app.UseRequestLocalization();
 
 if (!app.Environment.IsDevelopment())
 {
