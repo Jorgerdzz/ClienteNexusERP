@@ -30,6 +30,7 @@ namespace NexusERP.Services
             // Creamos un DTO parcial solo con los datos que la API exige actualizar
             var updateData = new UsuarioDTO
             {
+                Id = idUsuario,
                 Nombre = nombre,
                 Email = email
             };
