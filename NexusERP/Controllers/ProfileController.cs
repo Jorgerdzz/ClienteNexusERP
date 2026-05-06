@@ -1,6 +1,5 @@
 ﻿using ApiNexusERP.DTOs;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using NexusERP.Services;
 using NexusERP.ViewModels;
@@ -56,28 +55,27 @@ namespace NexusERP.Controllers
                 return RedirectToAction("Index");
             }
 
-            string idUsuarioString = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int idUsuarioReal = int.Parse(idUsuarioString);
-
-            var usuarioActualizado = await this.serviceUsuarios.UpdatePerfilUsuarioAsync(idUsuarioReal, model.NombreUsuario, model.Email);
+            // Usamos el ID del formulario, pero lo ideal es el de la Cookie
+            var usuarioActualizado = await this.serviceUsuarios.UpdatePerfilUsuarioAsync(model.UsuarioId, model.NombreUsuario, model.Email);
 
             if (usuarioActualizado != null)
             {
+                // 🍪 AQUÍ ESTÁ LA MAGIA: REESCRIBIR LA COOKIE EN TIEMPO REAL
                 var identity = (ClaimsIdentity)User.Identity;
 
-                var claimNombreAntiguo = identity.FindFirst(ClaimTypes.Name);
-                var claimEmailAntiguo = identity.FindFirst(ClaimTypes.Email);
+                var claimNombreAntiguo = identity.FindFirst(System.Security.Claims.ClaimTypes.Name);
+                var claimEmailAntiguo = identity.FindFirst(System.Security.Claims.ClaimTypes.Email);
                 var claimInicialesAntiguo = identity.FindFirst("Iniciales");
 
                 if (claimNombreAntiguo != null) identity.RemoveClaim(claimNombreAntiguo);
                 if (claimEmailAntiguo != null) identity.RemoveClaim(claimEmailAntiguo);
                 if (claimInicialesAntiguo != null) identity.RemoveClaim(claimInicialesAntiguo);
 
-                // Añadimos los nuevos datos básicos
-                identity.AddClaim(new Claim(ClaimTypes.Name, model.NombreUsuario));
-                identity.AddClaim(new Claim(ClaimTypes.Email, model.Email));
+                // Ponemos el nuevo nombre y el nuevo email
+                identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, model.NombreUsuario));
+                identity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, model.Email));
 
-                // 🎨 RECALCULAR LAS INICIALES PARA EL AVATAR
+                // 🎨 RECALCULAMOS LAS INICIALES PARA QUE EL AVATAR CAMBIE AL INSTANTE
                 string iniciales = "US";
                 if (!string.IsNullOrWhiteSpace(model.NombreUsuario))
                 {
@@ -87,11 +85,12 @@ namespace NexusERP.Controllers
                     else if (partesNombre.Length == 1)
                         iniciales = partesNombre[0].Substring(0, Math.Min(2, partesNombre[0].Length)).ToUpper();
                 }
-                identity.AddClaim(new Claim("Iniciales", iniciales));
+                identity.AddClaim(new System.Security.Claims.Claim("Iniciales", iniciales));
 
+                // Guardamos la Cookie modificada
                 await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity));
+                    Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme,
+                    new System.Security.Claims.ClaimsPrincipal(identity));
 
                 AlertService.Toast(TempData, "Perfil actualizado correctamente", "success");
             }
