@@ -402,12 +402,19 @@ namespace NexusERP.Controllers
                     var linea = await reader.ReadLineAsync();
                     fila++;
 
-                    if (fila == 1) continue; // Saltar cabecera
+                    // 1. Saltar cabecera
+                    if (fila == 1) continue;
+
+                    // 2. PROTECCIÓN 1: Ignorar líneas fantasma vacías de Excel
+                    if (string.IsNullOrWhiteSpace(linea)) continue;
 
                     var valores = linea.Contains(';') ? linea.Split(';') : linea.Split(',');
 
+                    if (valores.Length < 14) continue;
+
                     try
                     {
+                        // valores[0] es el nombre del departamento
                         int? idDept = BuscarDepartamentoInteligente(valores[0], departamentosBD);
 
                         if (idDept == null)
@@ -416,22 +423,37 @@ namespace NexusERP.Controllers
                             continue;
                         }
 
+                        // Llenamos la "maleta" DTO completa para que Azure no rechace la inserción
                         var empleado = new EmpleadoDTO
                         {
                             DepartamentoId = idDept.Value,
                             Nombre = valores[1],
                             Apellidos = valores[2],
                             Dni = valores[3],
-                            EmailCorporativo = valores[4],
+                            EmailCorporativo = valores[4],                          
+                            FechaNacimiento = DateOnly.Parse(valores[5]),
+                            NumSeguridadSocial = valores[6],
+                            FechaAntiguedad = DateOnly.Parse(valores[7]),
+                            GrupoCotizacion = int.Parse(valores[8]),                           
                             SalarioBrutoAnual = decimal.Parse(valores[9]),
                             Iban = valores[10]?.Replace(" ", "").ToUpper(),
+                            EstadoCivil = (int)GetEstadoCivil(valores[11]), 
+                            NumeroHijos = int.Parse(valores[12]),
+                            PorcentajeDiscapacidad = int.Parse(valores[13]),
+
                             Activo = true
                         };
 
                         var exito = await serviceEmpleados.CreateEmpleadoAsync(empleado);
 
-                        if (exito != null) empleadosImportados++;
-                        else errores.Add($"Fila {fila}: Error al insertar en base de datos.");
+                        if (exito != null)
+                        {
+                            empleadosImportados++;
+                        }
+                        else
+                        {
+                            errores.Add($"Fila {fila}: El DNI '{valores[3]}' o Email ya existe en la base de datos.");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -442,11 +464,11 @@ namespace NexusERP.Controllers
 
             if (errores.Any())
             {
-                AlertService.Warning(TempData, errores.First());
+                AlertService.Warning(TempData, $"Se importaron {empleadosImportados}. Falló alguna fila: {errores.First()}");
             }
             else
             {
-                AlertService.Toast(TempData, $"Se importaron {empleadosImportados} empleados correctamente.");
+                AlertService.Toast(TempData, $"Se importaron {empleadosImportados} empleados correctamente.", "success");
             }
 
             return RedirectToAction("Index");
