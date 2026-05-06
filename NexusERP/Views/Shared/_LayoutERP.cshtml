@@ -35,8 +35,55 @@
 
     <link rel="stylesheet" href="~/css/layout-erp.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NexusERP.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Estilos específicos para hacer responsiva la barra lateral sin alterar el diseño original */
+        @media (max-width: 768px) {
+            .erp-sidebar {
+                position: fixed !important;
+                left: -280px; /* Ajusta según el ancho de tu sidebar original */
+                top: 0;
+                bottom: 0;
+                z-index: 1050;
+                transition: left 0.3s ease-in-out;
+                width: 280px;
+                max-width: 80vw;
+            }
+            .erp-sidebar.active-mobile {
+                left: 0;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.4);
+                z-index: 1040;
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .sidebar-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+            /* Ocultar textos del menú en dropdown en móvil si es muy grande */
+            .erp-topbar .text-start.d-none.d-sm-block {
+                display: none !important;
+            }
+            /* Ajustar el contenedor de búsqueda y notificaciones para móviles */
+            .erp-topbar {
+                padding: 10px 15px !important;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Capa oscura para cuando el menú móvil esté abierto -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="erp-wrapper">
 
         <aside class="erp-sidebar">
@@ -209,10 +256,33 @@
         document.addEventListener("DOMContentLoaded", function () {
             var toggleBtn = document.getElementById("mobileMenuToggle");
             var sidebar = document.querySelector(".erp-sidebar");
+            var overlay = document.getElementById("sidebarOverlay");
             
-            if (toggleBtn && sidebar) {
-                toggleBtn.addEventListener("click", function () {
-                    sidebar.classList.toggle("active-mobile");
+            function toggleMenu() {
+                sidebar.classList.toggle("active-mobile");
+                
+                if (sidebar.classList.contains("active-mobile")) {
+                    overlay.classList.add("active");
+                } else {
+                    overlay.classList.remove("active");
+                }
+            }
+
+            if (toggleBtn && sidebar && overlay) {
+                toggleBtn.addEventListener("click", toggleMenu);
+                
+                // Cerrar menú al hacer clic en la capa oscura
+                overlay.addEventListener("click", toggleMenu);
+
+                // Cerrar menú si se hace clic en un enlace (ideal para móviles)
+                var links = sidebar.querySelectorAll(".sidebar-link");
+                links.forEach(function(link) {
+                    link.addEventListener("click", function() {
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove("active-mobile");
+                            overlay.classList.remove("active");
+                        }
+                    });
                 });
             }
         });
